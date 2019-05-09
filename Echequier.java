@@ -125,9 +125,12 @@ public class Echequier
     return r.get_etat() && t.get_etat();
   }
 
-  public roque(Roi r,Tour t)
+  public void roque(Roi r,Tour t)
   {
-    
+    if (roque_possible(r,t))
+    {
+      System.out.println("Yeah");
+    }
   }
 
 
