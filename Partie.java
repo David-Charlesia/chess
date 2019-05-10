@@ -52,8 +52,8 @@ public class Partie
  }
   public void chargement()
   {
-    String path = "historique.txt"
-
+    String path = "historique.txt";
+    
 
   }
 }
