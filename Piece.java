@@ -62,6 +62,9 @@ public class Piece
 
   public boolean mouv_possible(int x,int y){return true;}//à redéfinir pour chaque pièce
 
+  public boolean manger_possible(int dest_x,int dest_y){return false;}
+  
+
   public int[] direction(int x,int y)
   {
 
