@@ -44,10 +44,10 @@ public class Pion extends Piece
 
   public boolean manger_possible(int dest_x,int dest_y)
   {
-    int mouv_x=x-this.get_x(); //de combien de case il bouge sur l'axe x
-    int mouv_y=y-this.get_y(); //de combien de case il bouge sur l'axe y
+    int mouv_x=dest_x-this.get_x(); //de combien de case il bouge sur l'axe x
+    int mouv_y=dest_y-this.get_y(); //de combien de case il bouge sur l'axe y
 
-    mouv_x=math.abs(mouv_x);
+    mouv_x=Math.abs(mouv_x);
 
     if(mouv_y==1 && mouv_x==1)
     {

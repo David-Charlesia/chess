@@ -1,7 +1,6 @@
 public class Echequier
 {
   private Piece[] cases;
-  private int position_roi;
 
   public Echequier()
   {
@@ -116,7 +115,12 @@ public class Echequier
 
     if(this.mouv_possible(p,dest_x,dest_y))
     {
+      int x=p.get_x();
+      int y=p.get_y();
+
       this.set_case(dest_x,dest_y,p);
+
+      this.set_case(x,y);
     }
 
   }
@@ -150,7 +154,7 @@ public class Echequier
     return this.cases[x+y*8];
   }
 
-  public roque_possible(Roi r,Tour t)
+  public boolean roque_possible(Roi r,Tour t)
   {
     return r.get_etat() && t.get_etat();
   }
