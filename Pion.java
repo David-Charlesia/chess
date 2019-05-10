@@ -27,7 +27,11 @@ public class Pion extends Piece
       return false;
     }
 
-
+    if(this.get_couleur()==1)
+    {
+      mouv_x=mouv_x*-1;
+      mouv_y=mouv_y*-1;
+    }
     if(mouv_x==0)
     {
       if(mouv_y==2 && this.get_etat()==false)
@@ -55,6 +59,10 @@ public class Pion extends Piece
     }
 
     return false;
+  }
+
+  public boolean promotion_possible(int x,int y)
+  {
   }
 
 }

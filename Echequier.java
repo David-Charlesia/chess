@@ -16,7 +16,7 @@ public class Echequier
     this.cases[6]=new Cavalier(false,1,6,0);
     this.cases[7]=new Tour(false,1,7,0);
 
-    for(int i=0;i<8;i++)
+    for(int i=8;i<16;i++)
     {
       this.cases[i]=new Pion(false,1,i,1);
     }

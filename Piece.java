@@ -1,7 +1,7 @@
 public class Piece
 {
   private boolean etat; //false si n'a jamais joué et true sinon
-  private int couleur; //0 pour noir et 1 pour blanc
+  private int couleur; //1 pour noir et 0 pour blanc
   private int x;
   private int y;
 
@@ -63,7 +63,11 @@ public class Piece
   public boolean mouv_possible(int x,int y){return true;}//à redéfinir pour chaque pièce
 
   public boolean manger_possible(int dest_x,int dest_y){return false;}
-  
+
+  public boolean promotion_possible(int x,int y)//méthode redéfini dans Pion uniquement
+  {
+    return false;
+  }
 
   public int[] direction(int x,int y)
   {
