@@ -64,7 +64,7 @@ public class Piece
 
   public boolean manger_possible(int dest_x,int dest_y){return false;}
 
-  public boolean promotion_possible(int x,int y)//méthode redéfini dans Pion uniquement
+  public boolean promotion_possible()//méthode redéfini dans Pion uniquement
   {
     return false;
   }

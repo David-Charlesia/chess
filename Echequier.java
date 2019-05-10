@@ -119,8 +119,15 @@ public class Echequier
       int y=p.get_y();
 
       this.set_case(dest_x,dest_y,p);
-
       this.set_case(x,y);
+
+      if(p.promotion_possible())
+      {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Saisissez un choix(1=Cavalier, 2=Dame, 3=Fou, 4=Tour) : ");
+        int choix=sc.nextInt();
+        this.promotion(p,choix);
+      }
     }
 
   }
@@ -167,5 +174,30 @@ public class Echequier
     }
   }
 
+  public void promotion(Piece p,int choix)//déplacer le pion avant de faire la promotion
+  {
+    //choix : 1=Cavalier, 2=Dame, 3=Fou, 4=Tour
+    int x=p.get_x();
+    int y=p.get_y();
+    int couleur=p.get_couleur();
+    this.cases[x+y*8]=null;
+
+    if(choix==1)
+    {
+      this.cases[x+y*8]=new Cavalier(false,couleur,x,y);
+    }
+    if(choix==2)
+    {
+      this.cases[x+y*8]=new Dame(false,couleur,x,y);
+    }
+    if(choix==3)
+    {
+      this.cases[x+y*8]=new Fou(false,couleur,x,y);
+    }
+    if(choix==4)
+    {
+      this.cases[x+y*8]=new Tour(false,couleur,x,y);
+    }
+  }
 
 }

@@ -31,7 +31,7 @@ public class Partie
 
   public void chargement()
   {
-    String path = "partie_Sauv.txt"
+    String path = "partie_Sauv.txt";
 
   }
 }

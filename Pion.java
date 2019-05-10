@@ -61,8 +61,13 @@ public class Pion extends Piece
     return false;
   }
 
-  public boolean promotion_possible(int x,int y)
+  public boolean promotion_possible()
   {
+    int y=this.get_y();
+    if(y==0 || y==7)
+    {
+      return true;
+    }
   }
 
 }
