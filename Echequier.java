@@ -1,6 +1,7 @@
 public class Echequier
 {
   private Piece[] cases;
+  private int position_roi;
 
   public Echequier()
   {
@@ -56,6 +57,7 @@ public class Echequier
   }
 
   public void set_case(int x,int y,Piece p)//cette méthode est utilisé pour les méthodes manger
+  //la piece passer en paramètre
   {
     p.set_x(x);
     p.set_y(y);
@@ -70,40 +72,56 @@ public class Echequier
 
 
 
-
-  public boolean mouv_valide(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
+  public boolean mouv_possible(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
   {
-    if (!(p.mouv_possible(dest_x,dest_y)))
+    if (p.mouv_possible(dest_x,dest_y))
     {
-      return false;
+      //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
+      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
+
+      //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
+
+      int[] tab=p.direction(dest_x,dest_y);
+      int x=p.get_x();
+      int y=p.get_y();
+
+      while(x!=dest_x && y!=dest_y)//vérifier cette condition après l'ajout de la classe cavalier
+      {
+        x=x+tab[0];
+        y=y+tab[1];
+
+        if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+
+  public void bouger(Piece p,int dest_x,int dest_y)
+  {
+    if(p.manger_possible(dest_x,dest_y))//appelle la méthode dans Pion si c'est un pion, sinon dans Pièces
+    //si c'est dans pièce, ça return false, si c'est dans Pion, ça exécute la méthode dans pion.
+    {
+      this.manger(p,dest_x,dest_y);
     }
 
     if(this.manger_possible(p,dest_x,dest_y))
     {
-      return true;
+      this.manger(p,dest_x,dest_y);
     }
 
-    //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
-    //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
-
-    //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
-
-    int[] tab=p.direction(dest_x,dest_y);
-    int x=p.get_x();
-    int y=p.get_y();
-
-    while(x!=dest_x && y!=dest_y)//vérifier cette condition après l'ajout de la classe cavalier
+    if(this.mouv_possible(p,dest_x,dest_y))
     {
-      x=x+tab[0];
-      y=y+tab[1];
-
-      if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
-      {
-        return false;
-      }
+      this.set_case(dest_x,dest_y,p);
     }
-    return true;
+
   }
+
+
 
   public boolean manger_possible(Piece p,int x,int y)
   {
