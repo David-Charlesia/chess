@@ -37,6 +37,18 @@ public class Echequier
     }
   }
 
+  public boolean case_valide(int x,int y)
+  {
+    if(x>-1 && x<7)
+    {
+      if(y>-1 && y<7)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   //les méthodes set et get sont appelé sur un échequier
   public Piece get_case(int x,int y)
   {
