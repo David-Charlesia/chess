@@ -12,6 +12,11 @@ public class Roi extends Piece
     super(Roi);
   }
 
+  public String toString()
+  {
+    return "R";
+  }
+
   public boolean mouv_possible(int x,int y)
   {
     //le roi peut aller dans toutes les directions mais seulement d'1 case

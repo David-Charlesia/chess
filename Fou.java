@@ -13,6 +13,11 @@ public class Fou extends Piece
     super(fou);
   }
 
+  public String toString()
+  {
+    return "F";
+  }
+
   public boolean mouv_possible(int x,int y)
   {
     int mouv_x=x-this.get_x(); //de combien de case il bouge sur l'axe x

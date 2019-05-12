@@ -12,6 +12,11 @@ public class Dame extends Piece
     super(Dame);
   }
 
+  public String toString()
+  {
+    return "D";
+  }
+
   public boolean mouv_possible(int x,int y)
   {
     //la reine peut aller dans toutes les directions.

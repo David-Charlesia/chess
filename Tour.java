@@ -12,6 +12,11 @@ public class Tour extends Piece
     super(tour);
   }
 
+  public String toString()
+  {
+    return "T";
+  }
+
   public boolean mouv_possible(int x,int y)
   {
     //la tour bouge en ligne droite et sur un axe à la fois.

@@ -17,6 +17,11 @@ public class Pion extends Piece
     super(pion);
   }
 
+  public String toString()
+  {
+    return "P";
+  }
+
   public boolean mouv_possible(int x,int y)
   {
     int mouv_x=x-this.get_x(); //de combien de case il bouge sur l'axe x
