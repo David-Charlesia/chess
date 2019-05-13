@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Echequier
 {
   private Piece[] cases;
@@ -199,5 +201,36 @@ public class Echequier
       this.cases[x+y*8]=new Tour(false,couleur,x,y);
     }
   }
+  public void afficher()
+  {
+    String ch="\n                                                                        ";
+    ch+="\n                                                                        ";
+    ch+="\n                                                                        ";
 
+
+    for(int y=0;y<8;y++)
+    {
+      ch+="\n         |       |       |       |       |       |       |       |       |";
+      ch+="\n    "+y+"    |";
+      for(int x=0;x<8;x++)
+      {
+        if(this.get_case(x,y)!=null)
+        {
+          ch+="   "+this.get_case(x,y).toString()+"   |";
+        }
+        else
+        {
+            ch+="       |";
+        }
+      }
+      ch+="\n         |       |       |       |       |       |       |       |       |";
+
+    }
+
+    ch+="\n         |       |       |       |       |       |       |       |       |";
+    ch+="\n         |   a   |   b   |   c   |   d   |   e   |   f   |   g   |   h   |";
+    ch+="\n         |       |       |       |       |       |       |       |       |";
+
+    System.out.println(ch);
+   }
 }
