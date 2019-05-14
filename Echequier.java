@@ -201,6 +201,67 @@ public class Echequier
       this.cases[x+y*8]=new Tour(false,couleur,x,y);
     }
   }
+
+  public boolean mouv_possible_echec_ver(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
+  {//obliger d'ajouter cette redéfinition pour méthode échec
+  //dans cette redéfinition, le while s'arrête juste avant la case destination
+  //et vérifie si manger possible.
+    if (p.mouv_possible(dest_x,dest_y))
+    {
+      //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
+      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
+
+      //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
+
+      int[] tab=p.direction(dest_x,dest_y);
+      int x=p.get_x();
+      int y=p.get_y();
+
+      while(x<dest_x && y<dest_y)//vérifier cette condition après l'ajout de la classe cavalier
+      {
+        x=x+tab[0];
+        y=y+tab[1];
+
+        if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
+        {
+          return false;
+        }
+      }
+      if(manger_possible(p,dest_x,dest_y))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  public boolean est_echec(Roi r)
+  {
+    //vérifie pour chaque pièce adverse si mouv possible jusqu'au roi
+    int r_x=r.get_x();
+    int r_y=r.get_y();
+    int r_couleur=r.get_couleur();
+
+    for(int i=0;i<63;i++)
+    {
+      if(this.cases[i]!=null)
+      {
+        if(this.cases[i].get_couleur()!=r_couleur)
+        {
+          if(mouv_possible_echec_ver(this.cases[i],r_x,r_y))
+          {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+
+
+
   public void afficher()
   {
     String ch="\n--------------------------------------------------------------------------";
