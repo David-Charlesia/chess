@@ -79,8 +79,23 @@ public class Piece
     int mouv_y=y-this.get_y(); //de combien de case il bouge sur l'axe y
     int[] tab=new int[2];
 
-    tab[0]=mouv_x;
-    tab[1]=mouv_y;
+    if (mouv_x>0)
+    {
+      tab[0]=1;
+    }
+    if(mouv_x<0)
+    {
+      tab[0]=-1;
+    }
+    if (mouv_y>0)
+    {
+      tab[1]=1;
+    }
+    if (mouv_y<0)
+    {
+      tab[1]=-1;
+    }
+
     return tab;
   }
 }

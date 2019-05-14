@@ -20,22 +20,22 @@ public class Echequier
 
     for(int i=8;i<16;i++)
     {
-      this.cases[i]=new Pion(false,1,i,1);
+      this.cases[i]=new Pion(false,1,(i-8),1);
     }
 
     //Pièces noirs :
-    this.cases[63]=new Tour(false,0,0,7);
-    this.cases[62]=new Cavalier(false,0,1,7);
-    this.cases[61]=new Fou(false,0,2,7);
-    this.cases[60]=new Dame(false,0,3,7);
-    this.cases[59]=new Roi(false,0,4,7);
-    this.cases[58]=new Fou(false,0,5,7);
-    this.cases[57]=new Cavalier(false,0,6,7);
-    this.cases[56]=new Tour(false,0,7,7);
+    this.cases[56]=new Tour(false,0,0,7);
+    this.cases[57]=new Cavalier(false,0,1,7);
+    this.cases[58]=new Fou(false,0,2,7);
+    this.cases[59]=new Dame(false,0,3,7);
+    this.cases[60]=new Roi(false,0,4,7);
+    this.cases[61]=new Fou(false,0,5,7);
+    this.cases[62]=new Cavalier(false,0,6,7);
+    this.cases[63]=new Tour(false,0,7,7);
 
-    for(int i=55;i>47;i--)
+    for(int i=48;i<56;i++)
     {
-      this.cases[i]=new Pion(false,0,i,6);
+      this.cases[i]=new Pion(false,0,(i-48),6);
     }
   }
 
@@ -83,6 +83,7 @@ public class Echequier
       //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
 
       int[] tab=p.direction(dest_x,dest_y);
+
       int x=p.get_x();
       int y=p.get_y();
 
@@ -102,17 +103,19 @@ public class Echequier
   }
 
 
-  public void bouger(Piece p,int dest_x,int dest_y)
+  public boolean bouger(Piece p,int dest_x,int dest_y)
   {
     if(p.manger_possible(dest_x,dest_y))//appelle la méthode dans Pion si c'est un pion, sinon dans Pièces
     //si c'est dans pièce, ça return false, si c'est dans Pion, ça exécute la méthode dans pion.
     {
       this.manger(p,dest_x,dest_y);
+      return true;
     }
 
     if(this.manger_possible(p,dest_x,dest_y))
     {
       this.manger(p,dest_x,dest_y);
+      return true;
     }
 
     if(this.mouv_possible(p,dest_x,dest_y))
@@ -130,8 +133,9 @@ public class Echequier
         int choix=sc.nextInt();
         this.promotion(p,choix);
       }
+      return true;
     }
-
+    return false;
   }
 
 
@@ -201,12 +205,116 @@ public class Echequier
       this.cases[x+y*8]=new Tour(false,couleur,x,y);
     }
   }
+
+  public boolean mouv_possible_echec_ver(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
+  {//obliger d'ajouter cette redéfinition pour méthode échec
+  //dans cette redéfinition, le while s'arrête juste avant la case destination
+  //et vérifie si manger possible.
+    if (p.mouv_possible(dest_x,dest_y))
+    {
+      //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
+      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
+
+      //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
+
+      int[] tab=p.direction(dest_x,dest_y);
+      int x=p.get_x();
+      int y=p.get_y();
+
+      while(x<dest_x && y<dest_y)//vérifier cette condition après l'ajout de la classe cavalier
+      {
+        x=x+tab[0];
+        y=y+tab[1];
+
+        if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
+        {
+          return false;
+        }
+      }
+      if(manger_possible(p,dest_x,dest_y))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  public boolean est_echec(Roi r)
+  {
+    //vérifie pour chaque pièce adverse si mouv possible jusqu'au roi
+    int r_x=r.get_x();
+    int r_y=r.get_y();
+    int r_couleur=r.get_couleur();
+
+    for(int i=0;i<63;i++)
+    {
+      if(this.cases[i]!=null)
+      {
+        if(this.cases[i].get_couleur()!=r_couleur)
+        {
+          if(mouv_possible_echec_ver(this.cases[i],r_x,r_y))
+          {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+
+  public void jouer()
+  {
+    Scanner sc=new Scanner(System.in);
+    boolean rep=true;
+    String rep2="";
+    int x;
+    int y;
+    int dest_x;
+    int dest_y;
+
+    while(rep)
+    {
+      System.out.println("X origin = ");
+      x=sc.nextInt();
+
+      System.out.println("Y origin = ");
+      y=sc.nextInt();
+
+      System.out.println("dest_x = ");
+      dest_x=sc.nextInt();
+
+      System.out.println("dest_y = ");
+      dest_y=sc.nextInt();
+
+      if(!(this.bouger(x_y_to_piece(x,y),dest_x,dest_y)))
+      {
+        System.out.println("Recommencer");
+      }
+      else
+      {
+        System.out.println("Continuer ?(o pour oui et n pour non) : ");
+        rep2=sc.nextLine();
+        if(rep2=="o")
+        {
+          rep=true;
+        }
+        if(rep2=="n")
+        {
+          rep=false;
+        }
+      }
+      this.afficher();
+    }
+  }
+
   public void afficher()
   {
     String ch="\n--------------------------------------------------------------------------";
 
 
-    for(int y=0;y<8;y++)
+    for(int y=7;y>-1;y--)
     {
       ch+="\n         |       |       |       |       |       |       |       |       |";
       ch+="\n    "+y+"    |";

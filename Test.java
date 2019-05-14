@@ -22,7 +22,18 @@ public class Test
 
     e.afficher();
 
+    e.jouer();
+    //e.bouger(e.get_case(0,1),0,3);
+    //e.bouger(e.get_case(1,6),1,4);
+    //e.afficher();
+    //System.out.println(e.get_case(0,1).toString());
+    //e.bouger(e.get_case(0,1),0,3);
+    //System.out.println(e.mouv_possible(e.get_case(0,0),0,2));
 
+    //System.out.println(e.get_case(0,0).mouv_possible(0,2));
+    //int[] tab=e.get_case(1,6).direction(1,4);
+    //System.out.println(tab[0]+","+tab[1]);
+    //System.out.println(e.get_case(1,6).get_couleur());
 
   }
 }
