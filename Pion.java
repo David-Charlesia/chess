@@ -32,7 +32,7 @@ public class Pion extends Piece
       return false;
     }
 
-    if(this.get_couleur()==1)
+    if(this.get_couleur()==0)
     {
       mouv_x=mouv_x*-1;
       mouv_y=mouv_y*-1;
@@ -65,6 +65,29 @@ public class Pion extends Piece
 
     return false;
   }
+
+  /*public int[] direction(int x,int y)
+  {
+
+    //retourne un tableau[2] avec [0]=-1,0 ou 1 sur x et pareil avec [1] sur y
+    //donne la direction du déplacement
+
+    int mouv_x=x-this.get_x(); //de combien de case il bouge sur l'axe x
+    int mouv_y=y-this.get_y(); //de combien de case il bouge sur l'axe y
+    int[] tab=new int[2];
+
+    if(this.get_couleur()==0)
+    {
+      tab[0]=mouv_x*-1;
+      tab[1]=mouv_y*-1;
+    }
+    if(this.get_couleur()==1)
+    {
+      tab[0]=mouv_x;
+      tab[1]=mouv_y;
+    }
+    return tab;
+  }*/
 
   public boolean promotion_possible()
   {
