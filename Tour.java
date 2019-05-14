@@ -14,7 +14,7 @@ public class Tour extends Piece
 
   public String toString()
   {
-    return "T";
+    return "T"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x,int y)

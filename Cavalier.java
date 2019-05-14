@@ -14,7 +14,7 @@ class Cavalier extends Piece
 
   public String toString()
   {
-    return "C";
+    return "C"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x , int y)

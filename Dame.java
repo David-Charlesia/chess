@@ -14,7 +14,7 @@ public class Dame extends Piece
 
   public String toString()
   {
-    return "D";
+    return "D"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x,int y)

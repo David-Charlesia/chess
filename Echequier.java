@@ -203,9 +203,7 @@ public class Echequier
   }
   public void afficher()
   {
-    String ch="\n                                                                        ";
-    ch+="\n                                                                        ";
-    ch+="\n                                                                        ";
+    String ch="\n--------------------------------------------------------------------------";
 
 
     for(int y=0;y<8;y++)
@@ -216,7 +214,7 @@ public class Echequier
       {
         if(this.get_case(x,y)!=null)
         {
-          ch+="   "+this.get_case(x,y).toString()+"   |";
+          ch+="   "+this.get_case(x,y).toString()+"  |";
         }
         else
         {
@@ -224,6 +222,7 @@ public class Echequier
         }
       }
       ch+="\n         |       |       |       |       |       |       |       |       |";
+      ch+="\n--------------------------------------------------------------------------";
 
     }
 

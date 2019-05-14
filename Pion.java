@@ -19,7 +19,7 @@ public class Pion extends Piece
 
   public String toString()
   {
-    return "P";
+    return "P"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x,int y)

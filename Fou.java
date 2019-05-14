@@ -15,7 +15,7 @@ public class Fou extends Piece
 
   public String toString()
   {
-    return "F";
+    return "F"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x,int y)

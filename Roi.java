@@ -14,7 +14,7 @@ public class Roi extends Piece
 
   public String toString()
   {
-    return "R";
+    return "R"+this.get_couleur();
   }
 
   public boolean mouv_possible(int x,int y)
