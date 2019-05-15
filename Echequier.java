@@ -83,7 +83,10 @@ public class Echequier
       //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
 
       int[] tab=p.direction(dest_x,dest_y);
-
+      if(tab[0]==3 && tab[1]==3)//si c'est un cavalier
+      {
+        return true;
+      }
       int x=p.get_x();
       int y=p.get_y();
 
@@ -132,6 +135,7 @@ public class Echequier
         System.out.println("Saisissez un choix(1=Cavalier, 2=Dame, 3=Fou, 4=Tour) : ");
         int choix=sc.nextInt();
         this.promotion(p,choix);
+        sc.close();
       }
       return true;
     }
@@ -307,6 +311,7 @@ public class Echequier
       }
       this.afficher();
     }
+    sc.close();
   }
 
   public void afficher()

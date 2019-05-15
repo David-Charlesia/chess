@@ -20,7 +20,7 @@ class Cavalier extends Piece
   public boolean mouv_possible(int x , int y)
   {
   	int mouv_x=x-this.get_x(); //de combien de case il bouge sur l'axe x
-    int mouv_y=x-this.get_y(); //de combien de case il bouge sur l'axe y
+    int mouv_y=y-this.get_y(); //de combien de case il bouge sur l'axe y
 
     mouv_x=Math.abs(mouv_x);//valeur absolue de mouv_x
     mouv_y=Math.abs(mouv_y);//valeur absolue de mouv_y
@@ -31,11 +31,19 @@ class Cavalier extends Piece
       return true;
     }
 
-    else if (mouv_x==2 && mouv_y==1)
+    if (mouv_x==2 && mouv_y==1)
     {
       return true;
     }
-	return false;
+	  return false;
+  }
+
+  public int[] direction(int x,int y)
+  {
+    int[] tab=new int[2];
+    tab[0]=3;
+    tab[1]=3;
+    return tab;//car le cavalier saute les pièces sur son chemin
   }
 
 }
