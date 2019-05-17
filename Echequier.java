@@ -70,7 +70,7 @@ public class Echequier
     this.cases[x+y*8]=null;
   }
 
-  public Roi get_roi(couleur)
+  public Roi get_roi(int couleur)
   {
     for(int i=0;i<63;i++)
     {
@@ -202,11 +202,11 @@ public class Echequier
   {
     if(this.mouv_possible(p,dest_x,dest_y))
     {
-      if(this.est_echec_mine(Piece p,int dest_x,int dest_y))
+      if(this.est_echec_mine(p,dest_x,dest_y))
       {
         return false;
       }
-      this.type_mouv(Piece p,int dest_x,int dest_y);
+      this.type_mouv(p,dest_x,dest_y);
       return true;
     }
     return false;
@@ -241,7 +241,7 @@ public class Echequier
     }
   }
 
-  public void promotion(Piece p)//déplacer le pion avant de faire la promotion
+  public void promotion(Pion p)//déplacer le pion avant de faire la promotion
   {
     //choix : 1=Cavalier, 2=Dame, 3=Fou, 4=Tour
     int x=p.get_x();
@@ -252,7 +252,6 @@ public class Echequier
     Scanner sc = new Scanner(System.in);
     System.out.println("Saisissez un choix(1=Cavalier, 2=Dame, 3=Fou, 4=Tour) : ");
     int choix=sc.nextInt();
-    this.promotion(p,choix);
     sc.close();
 
     if(choix==1)
