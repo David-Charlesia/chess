@@ -70,7 +70,7 @@ public class Echequier
     this.cases[x+y*8]=null;
   }
 
-  public Roi get_roi(int couleur)
+  public Piece get_roi(int couleur)
   {
     for(int i=0;i<63;i++)
     {
@@ -85,6 +85,7 @@ public class Echequier
         }
       }
     }
+    return null;
   }
 
   public boolean mouv_possible(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
@@ -162,14 +163,14 @@ public class Echequier
   //vérifier avant si mouv possible
   {
     int couleur=p.get_couleur();
-    Roi r=this.get_roi(couleur);
+    Piece r=this.get_roi(couleur);
     int old=0;//si il yavait une pièce sur old_case(0=non, 1=oui)
-
+    Piece p_old=null;
     int old_x=p.get_x();
     int old_y=p.get_y();
     if(this.get_case(dest_x,dest_y)!=null)//si on mange
     {
-      Piece p_old=this.get_case(dest_x,dest_y);
+      p_old=this.get_case(dest_x,dest_y);
       old=1;
     }
     for(int i=0;i<63;i++)
@@ -241,7 +242,7 @@ public class Echequier
     }
   }
 
-  public void promotion(Pion p)//déplacer le pion avant de faire la promotion
+  public void promotion(Piece p)//déplacer le pion avant de faire la promotion
   {
     //choix : 1=Cavalier, 2=Dame, 3=Fou, 4=Tour
     int x=p.get_x();
