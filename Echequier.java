@@ -27,8 +27,8 @@ public class Echequier
     this.cases[56]=new Tour(false,0,0,7);
     this.cases[57]=new Cavalier(false,0,1,7);
     this.cases[58]=new Fou(false,0,2,7);
-    this.cases[59]=new Dame(false,0,3,7);
-    this.cases[60]=new Roi(false,0,4,7);
+    this.cases[59]=new Roi(false,0,3,7);
+    this.cases[60]=new Dame(false,0,4,7);
     this.cases[61]=new Fou(false,0,5,7);
     this.cases[62]=new Cavalier(false,0,6,7);
     this.cases[63]=new Tour(false,0,7,7);
@@ -60,8 +60,11 @@ public class Echequier
   public void set_case(int x,int y,Piece p)//cette méthode est utilisé pour les méthodes manger
   //la piece passer en paramètre
   {
-    p.set_x(x);
-    p.set_y(y);
+    if(p!=null)
+    {
+      p.set_x(x);
+      p.set_y(y);
+    }
     this.cases[x+y*8]=p;
   }
 
@@ -70,18 +73,16 @@ public class Echequier
     this.cases[x+y*8]=null;
   }
 
-  public Piece get_roi(int couleur)
+  public Roi get_roi(int couleur)
   {
+    String ch="R"+couleur;
     for(int i=0;i<63;i++)
     {
       if(this.cases[i]!=null)
       {
-        if(this.cases[i].toString()=="R")
+        if(this.cases[i].toString().equals(ch))
         {
-          if(this.cases[i].get_couleur()==couleur)
-          {
-            return this.cases[i];
-          }
+          return (Roi)this.cases[i];
         }
       }
     }
@@ -127,11 +128,20 @@ public class Echequier
     return false;
   }
 
+  public void deplacer(Piece p,int dest_x,int dest_y)
+  {
+    int origin_x=p.get_x();//x originel
+    int origin_y=p.get_y();//y originel
+
+    this.set_case(dest_x,dest_y,p);
+    this.set_case(origin_x,origin_y);
+  }
+
   public void type_mouv(Piece p,int dest_x,int dest_y)
   {
     if(this.get_case(dest_x,dest_y)==null)//déplacer
     {
-      this.set_case(dest_x,dest_y,p);
+      this.deplacer(p,dest_x,dest_y);
       if(p.promotion_possible())
       {
         this.promotion(p);//promotion
@@ -145,7 +155,7 @@ public class Echequier
     }
   }
 
-  public void bouger_test(Piece p,int dest_x,int dest_y)
+/*  public void bouger_test(Piece p,int dest_x,int dest_y)
   {
     if(this.get_case(dest_x,dest_y)==null)//déplacer
     {
@@ -155,7 +165,7 @@ public class Echequier
     {
       this.manger(p,dest_x,dest_y);
     }
-  }
+  }*/
 
   public boolean est_echec_mine(Piece p,int dest_x,int dest_y)
   //méthode a appelé avant de bouger une Pièces
@@ -163,38 +173,45 @@ public class Echequier
   //vérifier avant si mouv possible
   {
     int couleur=p.get_couleur();
-    Piece r=this.get_roi(couleur);
-    int old=0;//si il yavait une pièce sur old_case(0=non, 1=oui)
-    Piece p_old=null;
-    int old_x=p.get_x();
-    int old_y=p.get_y();
+    Roi r=this.get_roi(couleur);
+    Piece p_old=null;//ancienne pièce présente avant manger
+
+    int old_x=p.get_x();//ancien x de la pièce bouger
+    int old_y=p.get_y();//ancien y de la pièce bouger
+
     if(this.get_case(dest_x,dest_y)!=null)//si on mange
     {
       p_old=this.get_case(dest_x,dest_y);
-      old=1;
     }
-    for(int i=0;i<63;i++)
+
+    this.type_mouv(p,dest_x,dest_y);
+    //System.out.println("1");
+    //this.afficher();
+    for(int i=0;i<64;i++)
     {
+      System.out.println("Boucle for :"+i);
       if(this.cases[i]!=null)
       {
+        System.out.println("!=null");
         if(this.cases[i].get_couleur()!=couleur)
         {
+          System.out.println("Couleur");
           if(this.mouv_possible(this.cases[i],r.get_x(),r.get_y()))
           {
-            if(old==1)
-            {
-              this.set_case(dest_x,dest_y,p_old);
-            }
-            if(old==0)
-            {
-              this.set_case(dest_x,dest_y);
-            }
+            this.set_case(dest_x,dest_y,p_old);
             this.set_case(old_x,old_y,p);
+            System.out.println("Est échec");
             return true;
           }
         }
       }
     }
+    this.set_case(dest_x,dest_y,p_old);
+    //System.out.println("2");
+    //this.afficher();
+    this.set_case(old_x,old_y,p);
+    //System.out.println("3");
+    //this.afficher();
     return false;
   }
 
@@ -205,6 +222,7 @@ public class Echequier
     {
       if(this.est_echec_mine(p,dest_x,dest_y))
       {
+        System.out.println("Echec ?");
         return false;
       }
       this.type_mouv(p,dest_x,dest_y);
@@ -222,11 +240,6 @@ public class Echequier
     this.set_case(x,y,p);
 
     this.set_case(x_sup,y_sup);
-  }
-
-  public Piece x_y_to_piece(int x,int y)
-  {
-    return this.cases[x+y*8];
   }
 
   public boolean roque_possible(Roi r,Tour t)
@@ -298,11 +311,10 @@ public class Echequier
       System.out.println("dest_y = ");
       dest_y=sc.nextInt();
 
-      if(!(this.bouger(x_y_to_piece(x,y),dest_x,dest_y)))
+      if(!(this.bouger(this.get_case(x,y),dest_x,dest_y)))
       {
         System.out.println("Recommencer");
-      }
-      else
+      }else
       {
         System.out.println("Continuer ?(o pour oui et n pour non) : ");
         rep2=sc.nextLine();

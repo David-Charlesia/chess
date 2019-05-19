@@ -35,5 +35,6 @@ public class Test
     //System.out.println(tab[0]+","+tab[1]);
     //System.out.println(e.get_case(1,6).get_couleur());
 
+
   }
 }
