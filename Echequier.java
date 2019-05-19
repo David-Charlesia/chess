@@ -113,11 +113,17 @@ public class Echequier
       int x=p.get_x();
       int y=p.get_y();
 
-      while(x<dest_x && y<dest_y)
+      int mouv_x=dest_x-x;
+      int mouv_y=dest_y-y;
+
+      mouv_x=Math.abs(mouv_x);
+      mouv_y=Math.abs(mouv_y);
+      while(mouv_x>0 || mouv_y>0)
       {
         x=x+tab[0];
         y=y+tab[1];
-
+        mouv_x-=1;
+        mouv_y-=1;
         if(this.cases[x+y*8]!=null)
         {
           return false;
@@ -155,18 +161,6 @@ public class Echequier
     }
   }
 
-/*  public void bouger_test(Piece p,int dest_x,int dest_y)
-  {
-    if(this.get_case(dest_x,dest_y)==null)//déplacer
-    {
-      this.set_case(dest_x,dest_y,p);
-    }
-    else if(this.get_case(dest_x,dest_y).get_couleur()!=p.get_couleur())//manger
-    {
-      this.manger(p,dest_x,dest_y);
-    }
-  }*/
-
   public boolean est_echec_mine(Piece p,int dest_x,int dest_y)
   //méthode a appelé avant de bouger une Pièces
   //si le mouv met son propre roi en échec ou pas
@@ -185,33 +179,26 @@ public class Echequier
     }
 
     this.type_mouv(p,dest_x,dest_y);
-    //System.out.println("1");
-    //this.afficher();
+
     for(int i=0;i<64;i++)
     {
-      System.out.println("Boucle for :"+i);
       if(this.cases[i]!=null)
       {
-        System.out.println("!=null");
         if(this.cases[i].get_couleur()!=couleur)
         {
-          System.out.println("Couleur");
+          System.out.println(this.get_case().toString())
           if(this.mouv_possible(this.cases[i],r.get_x(),r.get_y()))
           {
             this.set_case(dest_x,dest_y,p_old);
             this.set_case(old_x,old_y,p);
-            System.out.println("Est échec");
+            System.out.print("La piece qui provoque l'echec est : "+this.cases[i].toString());
             return true;
           }
         }
       }
     }
     this.set_case(dest_x,dest_y,p_old);
-    //System.out.println("2");
-    //this.afficher();
     this.set_case(old_x,old_y,p);
-    //System.out.println("3");
-    //this.afficher();
     return false;
   }
 
@@ -222,7 +209,6 @@ public class Echequier
     {
       if(this.est_echec_mine(p,dest_x,dest_y))
       {
-        System.out.println("Echec ?");
         return false;
       }
       this.type_mouv(p,dest_x,dest_y);
