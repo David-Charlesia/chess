@@ -22,8 +22,11 @@ public class Test
 
     e.bouger(e.get_case(3,1),3,3);
     e.bouger(e.get_case(2,0),6,4);
+    //e.bouger(e.get_case(4,6),4,4);
 
     e.afficher();
+
+    //System.out.println(e.mouv_possible2(e.get_case(6,4),3,7));
 
     e.jouer();
 

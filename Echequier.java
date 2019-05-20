@@ -89,23 +89,25 @@ public class Echequier
     return null;
   }
 
-  public boolean mouv_possible(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
+
+  public boolean mouv_possible(Piece p, int dest_x, int dest_y)
   {
     if(this.get_case(dest_x,dest_y)!=null)
-    {//si la pièce qui est sur dest_case est à nous
+    {
       if(this.get_case(dest_x,dest_y).get_couleur()==p.get_couleur())
       {
         return false;
       }
     }
 
-    if (p.mouv_possible(dest_x,dest_y))
+    if(p.mouv_possible(dest_x,dest_y))
     {
-      // boucle while pour parcourir la distance
-      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
-
       int[] tab=p.direction(dest_x,dest_y);
-      if(tab[0]==3 && tab[1]==3)//si c'est un cavalier
+
+      dest_x=dest_x-tab[0];
+      dest_y=dest_y-tab[1];
+
+      if(tab[0]==3 && tab[1]==3)
       {
         return true;
       }
@@ -113,18 +115,12 @@ public class Echequier
       int x=p.get_x();
       int y=p.get_y();
 
-      int mouv_x=dest_x-x;
-      int mouv_y=dest_y-y;
-
-      mouv_x=Math.abs(mouv_x);
-      mouv_y=Math.abs(mouv_y);
-      while(mouv_x>0 || mouv_y>0)
+      while(dest_x!=x || dest_y!=y)
       {
         x=x+tab[0];
         y=y+tab[1];
-        mouv_x-=1;
-        mouv_y-=1;
-        if(this.cases[x+y*8]!=null)
+
+        if(this.get_case(x,y)!=null)
         {
           return false;
         }
@@ -133,6 +129,7 @@ public class Echequier
     }
     return false;
   }
+
 
   public void deplacer(Piece p,int dest_x,int dest_y)
   {
@@ -186,12 +183,10 @@ public class Echequier
       {
         if(this.cases[i].get_couleur()!=couleur)
         {
-          System.out.println(this.get_case().toString())
           if(this.mouv_possible(this.cases[i],r.get_x(),r.get_y()))
           {
             this.set_case(dest_x,dest_y,p_old);
             this.set_case(old_x,old_y,p);
-            System.out.print("La piece qui provoque l'echec est : "+this.cases[i].toString());
             return true;
           }
         }
