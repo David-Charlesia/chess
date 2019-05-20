@@ -20,20 +20,15 @@ public class Test
 
     Echequier e=new Echequier();
 
+    e.bouger(e.get_case(3,1),3,3);
+    e.bouger(e.get_case(2,0),6,4);
+    //e.bouger(e.get_case(4,6),4,4);
+
     e.afficher();
 
-    e.jouer();
-    //e.bouger(e.get_case(0,1),0,3);
-    //e.bouger(e.get_case(1,6),1,4);
-    //e.afficher();
-    //System.out.println(e.get_case(0,1).toString());
-    //e.bouger(e.get_case(0,1),0,3);
-    //System.out.println(e.mouv_possible(e.get_case(0,0),0,2));
+    //System.out.println(e.mouv_possible2(e.get_case(6,4),3,7));
 
-    //System.out.println(e.get_case(0,0).mouv_possible(0,2));
-    //int[] tab=e.get_case(1,6).direction(1,4);
-    //System.out.println(tab[0]+","+tab[1]);
-    //System.out.println(e.get_case(1,6).get_couleur());
+    e.jouer();
 
   }
 }

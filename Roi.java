@@ -33,10 +33,19 @@ public class Roi extends Piece
       return false;
     }
 
-    if(mouv_x==1 || mouv_y==1)
+    if(mouv_x==1 && mouv_y==1)
     {
       return true;
     }
+    if(mouv_x==1 && mouv_y==0)
+    {
+      return true;
+    }
+    if(mouv_x==0 && mouv_y==1)
+    {
+      return true;
+    }
+
     return false;
   }
 

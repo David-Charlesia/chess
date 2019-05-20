@@ -27,8 +27,8 @@ public class Echequier
     this.cases[56]=new Tour(false,0,0,7);
     this.cases[57]=new Cavalier(false,0,1,7);
     this.cases[58]=new Fou(false,0,2,7);
-    this.cases[59]=new Dame(false,0,3,7);
-    this.cases[60]=new Roi(false,0,4,7);
+    this.cases[59]=new Roi(false,0,3,7);
+    this.cases[60]=new Dame(false,0,4,7);
     this.cases[61]=new Fou(false,0,5,7);
     this.cases[62]=new Cavalier(false,0,6,7);
     this.cases[63]=new Tour(false,0,7,7);
@@ -60,8 +60,11 @@ public class Echequier
   public void set_case(int x,int y,Piece p)//cette méthode est utilisé pour les méthodes manger
   //la piece passer en paramètre
   {
-    p.set_x(x);
-    p.set_y(y);
+    if(p!=null)
+    {
+      p.set_x(x);
+      p.set_y(y);
+    }
     this.cases[x+y*8]=p;
   }
 
@@ -70,32 +73,54 @@ public class Echequier
     this.cases[x+y*8]=null;
   }
 
-
-
-
-  public boolean mouv_possible(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
+  public Roi get_roi(int couleur)
   {
-    if (p.mouv_possible(dest_x,dest_y))
+    String ch="R"+couleur;
+    for(int i=0;i<63;i++)
     {
-      //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
-      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
+      if(this.cases[i]!=null)
+      {
+        if(this.cases[i].toString().equals(ch))
+        {
+          return (Roi)this.cases[i];
+        }
+      }
+    }
+    return null;
+  }
 
-      //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
 
+  public boolean mouv_possible(Piece p, int dest_x, int dest_y)
+  {
+    if(this.get_case(dest_x,dest_y)!=null)
+    {
+      if(this.get_case(dest_x,dest_y).get_couleur()==p.get_couleur())
+      {
+        return false;
+      }
+    }
+
+    if(p.mouv_possible(dest_x,dest_y))
+    {
       int[] tab=p.direction(dest_x,dest_y);
-      if(tab[0]==3 && tab[1]==3)//si c'est un cavalier
+
+      dest_x=dest_x-tab[0];
+      dest_y=dest_y-tab[1];
+
+      if(tab[0]==3 && tab[1]==3)
       {
         return true;
       }
+
       int x=p.get_x();
       int y=p.get_y();
 
-      while(x!=dest_x && y!=dest_y)//vérifier cette condition après l'ajout de la classe cavalier
+      while(dest_x!=x || dest_y!=y)
       {
         x=x+tab[0];
         y=y+tab[1];
 
-        if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
+        if(this.get_case(x,y)!=null)
         {
           return false;
         }
@@ -106,55 +131,87 @@ public class Echequier
   }
 
 
-  public boolean bouger(Piece p,int dest_x,int dest_y)
+  public void deplacer(Piece p,int dest_x,int dest_y)
   {
-    if(p.manger_possible(dest_x,dest_y))//appelle la méthode dans Pion si c'est un pion, sinon dans Pièces
-    //si c'est dans pièce, ça return false, si c'est dans Pion, ça exécute la méthode dans pion.
+    int origin_x=p.get_x();//x originel
+    int origin_y=p.get_y();//y originel
+
+    this.set_case(dest_x,dest_y,p);
+    this.set_case(origin_x,origin_y);
+  }
+
+  public void type_mouv(Piece p,int dest_x,int dest_y)
+  {
+    if(this.get_case(dest_x,dest_y)==null)//déplacer
     {
-      this.manger(p,dest_x,dest_y);
-      return true;
-    }
-
-    if(this.manger_possible(p,dest_x,dest_y))
-    {
-      this.manger(p,dest_x,dest_y);
-      return true;
-    }
-
-    if(this.mouv_possible(p,dest_x,dest_y))
-    {
-      int x=p.get_x();
-      int y=p.get_y();
-
-      this.set_case(dest_x,dest_y,p);
-      this.set_case(x,y);
-
+      this.deplacer(p,dest_x,dest_y);
       if(p.promotion_possible())
       {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Saisissez un choix(1=Cavalier, 2=Dame, 3=Fou, 4=Tour) : ");
-        int choix=sc.nextInt();
-        this.promotion(p,choix);
-        sc.close();
+        this.promotion(p);//promotion
       }
+    }
+    //else if(this.get_case(dest_x,dest_y).toString()=="") à développer pour roque
+
+    else//manger
+    {
+      this.manger(p,dest_x,dest_y);
+    }
+  }
+
+  public boolean est_echec_mine(Piece p,int dest_x,int dest_y)
+  //méthode a appelé avant de bouger une Pièces
+  //si le mouv met son propre roi en échec ou pas
+  //vérifier avant si mouv possible
+  {
+    int couleur=p.get_couleur();
+    Roi r=this.get_roi(couleur);
+    Piece p_old=null;//ancienne pièce présente avant manger
+
+    int old_x=p.get_x();//ancien x de la pièce bouger
+    int old_y=p.get_y();//ancien y de la pièce bouger
+
+    if(this.get_case(dest_x,dest_y)!=null)//si on mange
+    {
+      p_old=this.get_case(dest_x,dest_y);
+    }
+
+    this.type_mouv(p,dest_x,dest_y);
+
+    for(int i=0;i<64;i++)
+    {
+      if(this.cases[i]!=null)
+      {
+        if(this.cases[i].get_couleur()!=couleur)
+        {
+          if(this.mouv_possible(this.cases[i],r.get_x(),r.get_y()))
+          {
+            this.set_case(dest_x,dest_y,p_old);
+            this.set_case(old_x,old_y,p);
+            return true;
+          }
+        }
+      }
+    }
+    this.set_case(dest_x,dest_y,p_old);
+    this.set_case(old_x,old_y,p);
+    return false;
+  }
+
+
+  public boolean bouger(Piece p,int dest_x,int dest_y)
+  {
+    if(this.mouv_possible(p,dest_x,dest_y))
+    {
+      if(this.est_echec_mine(p,dest_x,dest_y))
+      {
+        return false;
+      }
+      this.type_mouv(p,dest_x,dest_y);
       return true;
     }
     return false;
   }
 
-
-
-  public boolean manger_possible(Piece p,int x,int y)
-  {
-    if(this.cases[x+y*8]!=null)
-    {
-      if(this.cases[x+y*8].get_couleur()!=p.get_couleur())
-      {
-        return true;
-      }
-    }
-    return false;
-  }
 
   public void manger(Piece p,int x,int y)
   {
@@ -164,11 +221,6 @@ public class Echequier
     this.set_case(x,y,p);
 
     this.set_case(x_sup,y_sup);
-  }
-
-  public Piece x_y_to_piece(int x,int y)
-  {
-    return this.cases[x+y*8];
   }
 
   public boolean roque_possible(Roi r,Tour t)
@@ -184,13 +236,18 @@ public class Echequier
     }
   }
 
-  public void promotion(Piece p,int choix)//déplacer le pion avant de faire la promotion
+  public void promotion(Piece p)//déplacer le pion avant de faire la promotion
   {
     //choix : 1=Cavalier, 2=Dame, 3=Fou, 4=Tour
     int x=p.get_x();
     int y=p.get_y();
     int couleur=p.get_couleur();
     this.cases[x+y*8]=null;
+
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Saisissez un choix(1=Cavalier, 2=Dame, 3=Fou, 4=Tour) : ");
+    int choix=sc.nextInt();
+    sc.close();
 
     if(choix==1)
     {
@@ -208,63 +265,6 @@ public class Echequier
     {
       this.cases[x+y*8]=new Tour(false,couleur,x,y);
     }
-  }
-
-  public boolean mouv_possible_echec_ver(Piece p,int dest_x,int dest_y)//vérifier si Piece p est nécessaire en fonction du p
-  {//obliger d'ajouter cette redéfinition pour méthode échec
-  //dans cette redéfinition, le while s'arrête juste avant la case destination
-  //et vérifie si manger possible.
-    if (p.mouv_possible(dest_x,dest_y))
-    {
-      //en fonction de la direction, faire une boucle while x!=dest_x... pour parcourir la distance
-      //et vérifier qu'il n'y a pas de pièce sur la route qui bloque le passage.
-
-      //faire un if TYPE OBJECT cavalier pour faire d'une façcon différente
-
-      int[] tab=p.direction(dest_x,dest_y);
-      int x=p.get_x();
-      int y=p.get_y();
-
-      while(x<dest_x && y<dest_y)//vérifier cette condition après l'ajout de la classe cavalier
-      {
-        x=x+tab[0];
-        y=y+tab[1];
-
-        if(this.cases[x+y*8]!=null) //vérifier ce que le this pointe
-        {
-          return false;
-        }
-      }
-      if(manger_possible(p,dest_x,dest_y))
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-
-
-  public boolean est_echec(Roi r)
-  {
-    //vérifie pour chaque pièce adverse si mouv possible jusqu'au roi
-    int r_x=r.get_x();
-    int r_y=r.get_y();
-    int r_couleur=r.get_couleur();
-
-    for(int i=0;i<63;i++)
-    {
-      if(this.cases[i]!=null)
-      {
-        if(this.cases[i].get_couleur()!=r_couleur)
-        {
-          if(mouv_possible_echec_ver(this.cases[i],r_x,r_y))
-          {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
   }
 
 
@@ -292,11 +292,10 @@ public class Echequier
       System.out.println("dest_y = ");
       dest_y=sc.nextInt();
 
-      if(!(this.bouger(x_y_to_piece(x,y),dest_x,dest_y)))
+      if(!(this.bouger(this.get_case(x,y),dest_x,dest_y)))
       {
         System.out.println("Recommencer");
-      }
-      else
+      }else
       {
         System.out.println("Continuer ?(o pour oui et n pour non) : ");
         rep2=sc.nextLine();
