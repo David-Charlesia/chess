@@ -57,6 +57,11 @@ public class Echequier
     return this.cases[x+y*8];
   }
 
+  public Piece get_case(int i)
+  {
+    return this.cases[i];
+  }
+
   public void set_case(int x,int y,Piece p)//cette méthode est utilisé pour les méthodes manger
   //la piece passer en paramètre
   {
