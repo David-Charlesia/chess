@@ -30,6 +30,8 @@ public class Test
 
     IHM fenetre=new IHM(e);
 
+
+
     //e.jouer();
 
   }

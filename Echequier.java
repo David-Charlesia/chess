@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Echequier
 {
@@ -104,7 +105,7 @@ public class Echequier
         return false;
       }
     }
-
+    
     if(p.mouv_possible(dest_x,dest_y))
     {
       int[] tab=p.direction(dest_x,dest_y);
@@ -202,8 +203,7 @@ public class Echequier
     return false;
   }
 
-
-  public boolean bouger(Piece p,int dest_x,int dest_y)
+  public boolean bouger_ok(Piece p,int dest_x,int dest_y)
   {
     if(this.mouv_possible(p,dest_x,dest_y))
     {
@@ -211,10 +211,14 @@ public class Echequier
       {
         return false;
       }
-      this.type_mouv(p,dest_x,dest_y);
       return true;
     }
     return false;
+  }
+
+  public void bouger(Piece p,int dest_x,int dest_y)
+  {
+    this.type_mouv(p,dest_x,dest_y);
   }
 
 
@@ -297,11 +301,12 @@ public class Echequier
       System.out.println("dest_y = ");
       dest_y=sc.nextInt();
 
-      if(!(this.bouger(this.get_case(x,y),dest_x,dest_y)))
+      if(!(this.bouger_ok(this.get_case(x,y),dest_x,dest_y)))
       {
         System.out.println("Recommencer");
       }else
       {
+        this.bouger(this.get_case(x,y),dest_x,dest_y);
         System.out.println("Continuer ?(o pour oui et n pour non) : ");
         rep2=sc.nextLine();
         if(rep2=="o")
@@ -316,6 +321,23 @@ public class Echequier
       this.afficher();
     }
     sc.close();
+  }
+
+  public ArrayList<Integer> all_mouv_possible(Piece p)
+  {
+    ArrayList<Integer> tab=new ArrayList<Integer>();
+
+    for(int x=0;x<8;x++)
+    {
+      for(int y=0;y<8;y++)
+      {
+        if(this.bouger_ok(p,x,y))
+        {
+          tab.add(x+y*8);
+        }
+      }
+    }
+    return tab;
   }
 
   public void afficher()
