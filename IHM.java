@@ -11,8 +11,10 @@ public class IHM extends JFrame
   Echequier e;
   Buttonv2[] bt_tab=new Buttonv2[64];
   int bt_select=0;
+  Buttonv2 bt_before;
   Piece p_select;
   JPanel jp_centre;
+  BoutonListener blis=new BoutonListener();
 
   public IHM(Echequier e)
   {
@@ -26,12 +28,21 @@ public class IHM extends JFrame
     this.setVisible(true);
   }
 
+  public Buttonv2 init_bt(String name, Piece p,int x,int y)
+  {
+    Buttonv2 bt=new Buttonv2(name,p,x,y);
+    bt.addActionListener(blis);
+
+    bt_tab[x+y*8]=bt;
+
+    return bt;
+  }
+
   public void getPanelCentre()
   {
     jp_centre=new JPanel();
     jp_centre.setLayout(new GridLayout(8,8));
     Buttonv2 bt;
-    BoutonListener blis=new BoutonListener();
 
     for(int y=0;y<8;y++)
     {
@@ -122,6 +133,7 @@ public class IHM extends JFrame
         {
           bt_select=1;
         }
+        bt_before=b;
       }else//(bt_select==1)
       {
         //System.out.println("x="+b.get_x()+", y="+b.get_y());
@@ -131,7 +143,15 @@ public class IHM extends JFrame
           e.bouger(p_select,b.get_x(),b.get_y());
           init_backcolor_bt();
           bt_select=0;
-          getPanelCentre();
+
+          //b=init_bt(p_select.toString(),p_select,p_select.get_x(),p_select.get_y());
+          //getPanelCentre();
+
+          b.actu_bt(p_select.toString(),p_select);
+          bt_before.actu_bt(" ",null);
+
+          //jp_centre.updateUI();
+          
 
         }
       }
@@ -145,7 +165,7 @@ public class IHM extends JFrame
     private int x;
     private int y;
 
-    Buttonv2(String name, Piece p,int x,int y)
+    public Buttonv2(String name, Piece p,int x,int y)
     {
         super(name);
         this.p=p;
@@ -154,10 +174,32 @@ public class IHM extends JFrame
         //this.nb=x+y*8;
     }
 
+    public void actu_bt(String name, Piece p)
+    {
+      this.setText(name);
+      this.p=p;
+    }
+
+    public void set_p_bt(Piece p)
+    {
+      this.p=p;
+    }
+
+    public void set_x_bt(int x)
+    {
+      this.x=x;
+    }
+
+    public void set_y_bt(int y)
+    {
+      this.y=y;
+    }
+
     public Piece getPieceButton()
     {
         return this.p;
     }
+
 
     public int get_x()
     {
