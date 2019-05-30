@@ -37,6 +37,7 @@ public class Pion extends Piece
       mouv_x=mouv_x*-1;
       mouv_y=mouv_y*-1;
     }
+
     if(mouv_x==0)
     {
       if(mouv_y==2 && this.get_etat()==false)
@@ -55,6 +56,12 @@ public class Pion extends Piece
   {
     int mouv_x=dest_x-this.get_x(); //de combien de case il bouge sur l'axe x
     int mouv_y=dest_y-this.get_y(); //de combien de case il bouge sur l'axe y
+
+    if(this.get_couleur()==0)
+    {
+      mouv_x=mouv_x*-1;
+      mouv_y=mouv_y*-1;
+    }
 
     mouv_x=Math.abs(mouv_x);
 

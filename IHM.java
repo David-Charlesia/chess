@@ -136,9 +136,11 @@ public class IHM extends JFrame
         bt_before=b;
       }else//(bt_select==1)
       {
-        //System.out.println("x="+b.get_x()+", y="+b.get_y());
-        //System.out.println("Piece select ="+p_select.toString());
-        if(e.bouger_ok(p_select,b.get_x(),b.get_y()))
+        if(b.equals(bt_before))
+        {
+          bt_select=0;
+          init_backcolor_bt();
+        }else if(e.bouger_ok(p_select,b.get_x(),b.get_y()))
         {
           e.bouger(p_select,b.get_x(),b.get_y());
           init_backcolor_bt();
@@ -151,7 +153,7 @@ public class IHM extends JFrame
           bt_before.actu_bt(" ",null);
 
           //jp_centre.updateUI();
-          
+
 
         }
       }

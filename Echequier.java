@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class Echequier
 {
   private Piece[] cases;
+  private int joueur=1;
 
   public Echequier()
   {
@@ -104,8 +105,12 @@ public class Echequier
       {
         return false;
       }
+      if(p.manger_possible(dest_x,dest_y))
+      {
+        return true;
+      }
     }
-    
+
     if(p.mouv_possible(dest_x,dest_y))
     {
       int[] tab=p.direction(dest_x,dest_y);
@@ -205,6 +210,10 @@ public class Echequier
 
   public boolean bouger_ok(Piece p,int dest_x,int dest_y)
   {
+    if(!(this.joueur==p.get_couleur()))
+    {
+      return false;
+    }
     if(this.mouv_possible(p,dest_x,dest_y))
     {
       if(this.est_echec_mine(p,dest_x,dest_y))
@@ -219,6 +228,13 @@ public class Echequier
   public void bouger(Piece p,int dest_x,int dest_y)
   {
     this.type_mouv(p,dest_x,dest_y);
+    if(this.joueur==1)
+    {
+      this.joueur=0;
+    }else
+    {
+      this.joueur=1;
+    }
   }
 
 
