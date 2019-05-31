@@ -93,7 +93,6 @@ public class Echequier
         }
       }
     }
-    return null;
   }
 
 
@@ -205,6 +204,26 @@ public class Echequier
     }
     this.set_case(dest_x,dest_y,p_old);
     this.set_case(old_x,old_y,p);
+    return false;
+  }
+
+  public boolean est_echec(int couleur)
+  {
+    Roi r=this.get_roi(couleur);
+
+    for(int i=0;i<64;i++)
+    {
+      if(this.cases[i]!=null)
+      {
+        if(this.cases[i].get_couleur()!=couleur)
+        {
+          if(this.mouv_possible(this.cases[i],r.get_x(),r.get_y()))
+          {
+            return true;
+          }
+        }
+      }
+    }
     return false;
   }
 
