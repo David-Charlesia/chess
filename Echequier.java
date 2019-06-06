@@ -233,6 +233,12 @@ public class Echequier
     {
       return false;
     }
+
+    if(this.est_echec(p.get_couleur()))
+    {
+      
+    }
+
     if(this.mouv_possible(p,dest_x,dest_y))
     {
       if(this.est_echec_mine(p,dest_x,dest_y))
