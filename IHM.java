@@ -103,8 +103,28 @@ public class IHM extends JFrame
     }
   }
 
+  public void echec_aff(int couleur,Buttonv2 b)
+  {
+    boolean trouve=false;
+    int i=0;
+    while(!trouve && i<64)
+    {
+      if(bt_tab[i].getPieceButton()!=null)
+      {
+        if(bt_tab[i].getPieceButton().pion_id()==2 && bt_tab[i].getPieceButton().get_couleur()==couleur)
+        {
+          bt_tab[i].setBackground(Color.RED);
+          b.setBackground(Color.ORANGE);
+          trouve=true;
+        }
+      }
+      i+=1;
+    }
+  }
+
   class BoutonListener implements ActionListener
   {
+    int color_adv;
 
     public void actionPerformed(ActionEvent ae)
     {
@@ -146,11 +166,26 @@ public class IHM extends JFrame
           init_backcolor_bt();
           bt_select=0;
 
+
           //b=init_bt(p_select.toString(),p_select,p_select.get_x(),p_select.get_y());
           //getPanelCentre();
 
           b.actu_bt(p_select.toString(),p_select);
           bt_before.actu_bt(" ",null);
+
+
+          if(p_select.get_couleur()==0)
+          {
+            color_adv=1;
+          }else if(p_select.get_couleur()==1)
+          {
+            color_adv=0;
+          }
+
+          if(e.est_echec(color_adv))
+          {
+            echec_aff(color_adv,b);
+          }
 
           //jp_centre.updateUI();
 

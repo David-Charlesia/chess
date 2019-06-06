@@ -73,6 +73,8 @@ public class Pion extends Piece
     return false;
   }
 
+  public int pion_id(){return 1;}
+
   /*public int[] direction(int x,int y)
   {
 

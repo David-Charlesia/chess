@@ -93,6 +93,7 @@ public class Echequier
         }
       }
     }
+    return null;
   }
 
 
@@ -107,6 +108,9 @@ public class Echequier
       if(p.manger_possible(dest_x,dest_y))
       {
         return true;
+      }else if(p.pion_id()==1)
+      {
+        return false;
       }
     }
 
@@ -236,7 +240,15 @@ public class Echequier
 
     if(this.est_echec(p.get_couleur()))
     {
-      
+      if(this.mouv_possible(p,dest_x,dest_y))
+      {
+        if(this.est_echec_mine(p,dest_x,dest_y))
+        {
+          return false;
+        }
+        return true;
+      }
+      return false;
     }
 
     if(this.mouv_possible(p,dest_x,dest_y))

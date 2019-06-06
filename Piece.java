@@ -69,6 +69,8 @@ public class Piece
     return false;
   }
 
+  public int pion_id(){return 0;}
+
   public int[] direction(int x,int y)
   {
 

@@ -17,6 +17,8 @@ public class Roi extends Piece
     return "R"+this.get_couleur();
   }
 
+  public int pion_id(){return 2;}
+
   public boolean mouv_possible(int x,int y)
   {
     //le roi peut aller dans toutes les directions mais seulement d'1 case
