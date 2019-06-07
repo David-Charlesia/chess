@@ -1,10 +1,12 @@
+import java.awt.Image;
+
 public class Dame extends Piece
 {
   public Dame(){}
 
-  public Dame(boolean etat,int couleur,int x,int y)
+  public Dame(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
 
   public Dame(Dame Dame)

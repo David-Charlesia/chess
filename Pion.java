@@ -1,3 +1,5 @@
+import java.awt.Image;
+
 public class Pion extends Piece
 {
 
@@ -7,9 +9,9 @@ public class Pion extends Piece
 
   public Pion(){} //constructeur vide
 
-  public Pion(boolean etat,int couleur,int x,int y)
+  public Pion(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
 
   public Pion(Pion pion)

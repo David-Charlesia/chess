@@ -1,18 +1,21 @@
+import java.awt.Image;
 public class Piece
 {
   private boolean etat; //false si n'a jamais joué et true sinon
   private int couleur; //1 pour noir et 0 pour blanc
   private int x;
   private int y;
+  private Image img;
 
   public Piece(){} //constructeur vide
 
-  public Piece(boolean etat,int couleur,int x,int y)
+  public Piece(boolean etat,int couleur,int x,int y,Image img)
   {
     this.etat=etat;
     this.couleur=couleur;
     this.x=x;
     this.y=y;
+    this.img=img;
   }
 
   public Piece(Piece piece)
@@ -21,6 +24,7 @@ public class Piece
     this.couleur=piece.couleur;
     this.x=piece.x;
     this.y=piece.y;
+    this.img=piece.img;
   }
 
   public void se_deplacer(int x,int y)
@@ -58,6 +62,11 @@ public class Piece
   public int get_couleur()
   {
     return this.couleur;
+  }
+
+  public Image get_img()
+  {
+    return this.img;
   }
 
   public boolean mouv_possible(int x,int y){return true;}//à redéfinir pour chaque pièce
