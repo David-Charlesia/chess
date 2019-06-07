@@ -1,11 +1,13 @@
+import java.awt.Image;
+
 public class Fou extends Piece
 {
 
   public Fou(){} //constructeur vide
 
-  public Fou(boolean etat,int couleur,int x,int y)
+  public Fou(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
 
   public Fou(Fou fou)

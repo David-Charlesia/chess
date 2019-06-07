@@ -1,10 +1,12 @@
+import java.awt.Image;
+
 public class Roi extends Piece
 {
   public Roi(){} //constructeur vide
 
-  public Roi(boolean etat,int couleur,int x,int y)
+  public Roi(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
 
   public Roi(Roi Roi)
@@ -16,6 +18,8 @@ public class Roi extends Piece
   {
     return "R"+this.get_couleur();
   }
+
+  public int pion_id(){return 2;}
 
   public boolean mouv_possible(int x,int y)
   {

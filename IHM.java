@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
+import java.awt.Image;
+import javax.imageio.ImageIO;
 
 public class IHM extends JFrame
 {
@@ -24,13 +26,13 @@ public class IHM extends JFrame
     getPanelCentre();
     this.add(jp_centre,BorderLayout.CENTER);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    this.setBounds(300,300,600,400);
+    this.setBounds(300,300,800,600);
     this.setVisible(true);
   }
 
   public Buttonv2 init_bt(String name, Piece p,int x,int y)
   {
-    Buttonv2 bt=new Buttonv2(name,p,x,y);
+    Buttonv2 bt=new Buttonv2(p.get_img(),p,x,y);
     bt.addActionListener(blis);
 
     bt_tab[x+y*8]=bt;
@@ -40,32 +42,38 @@ public class IHM extends JFrame
 
   public void getPanelCentre()
   {
-    jp_centre=new JPanel();
-    jp_centre.setLayout(new GridLayout(8,8));
-    Buttonv2 bt;
-
-    for(int y=0;y<8;y++)
+    try
     {
-      for(int x=0;x<8;x++)
+      jp_centre=new JPanel();
+      jp_centre.setLayout(new GridLayout(8,8));
+      Buttonv2 bt;
+
+      for(int y=7;y>-1;y--)
       {
-        if(e.get_case(x,y)==null)
+        for(int x=7;x>-1;x--)
         {
-          bt=new Buttonv2(" ",null,x,y);
-        }else
-        {
-          bt=new Buttonv2(e.get_case(x,y).toString(),e.get_case(x,y),x,y);
+          if(e.get_case(x,y)==null)
+          {
+            bt=new Buttonv2(ImageIO.read(getClass().getResource("img/null.png")),null,x,y);
+          }else
+          {
+            bt=new Buttonv2(e.get_case(x,y).get_img(),e.get_case(x,y),x,y);
+          }
+
+
+          bt.addActionListener(blis);
+
+          bt_tab[x+y*8]=bt;
+
+          jp_centre.add(bt);
         }
-
-
-        bt.addActionListener(blis);
-
-        bt_tab[x+y*8]=bt;
-
-        jp_centre.add(bt);
       }
+      //init_img_size();
+      init_backcolor_bt();
+    }catch (Exception ex)
+    {
+      System.out.println(ex);
     }
-
-    init_backcolor_bt();
   }
 
   public void init_backcolor_bt()
@@ -77,27 +85,59 @@ public class IHM extends JFrame
       {
         if(i%8==0)
         {
-          bt_tab[i].setBackground(Color.WHITE);
-          bt_tab[i].setForeground(Color.BLACK);
+          bt_tab[i].setBackground(new Color(255,222,173));
+          //bt_tab[i].setForeground(Color.BLACK);
           couleur=1;
         }else
         {
-          bt_tab[i].setBackground(Color.BLACK);
-          bt_tab[i].setForeground(Color.WHITE);
+          bt_tab[i].setBackground(new Color(222,184,135));
+          //bt_tab[i].setForeground(Color.WHITE);
           couleur=0;
         }
       }else
       {
         if(i%8==0)
         {
-          bt_tab[i].setBackground(Color.BLACK);
-          bt_tab[i].setForeground(Color.WHITE);
+          bt_tab[i].setBackground(new Color(222,184,135));
+          //bt_tab[i].setForeground(Color.WHITE);
           couleur=0;
         }else
         {
-          bt_tab[i].setBackground(Color.WHITE);
-          bt_tab[i].setForeground(Color.BLACK);
+          bt_tab[i].setBackground(new Color(255,222,173));
+          //bt_tab[i].setForeground(Color.BLACK);
           couleur=1;
+        }
+      }
+    }
+  }
+
+  public Buttonv2 get_Button(Piece p)
+  {
+    for(int i=0;i<64;i++)
+    {
+      if(bt_tab[i].getPieceButton()!=null)
+      {
+        if(bt_tab[i].getPieceButton().equals(p))
+        {
+          return bt_tab[i];
+        }
+      }
+    }
+    return null;
+  }
+
+  public void echec_aff(int couleur,Buttonv2 b)
+  {
+    Buttonv2 roi=get_Button(e.get_roi(couleur));
+    roi.setBackground(Color.RED);
+
+    for(int i=0;i<64;i++)
+    {
+      if(bt_tab[i].getPieceButton()!=null)
+      {
+        if(e.mouv_possible(bt_tab[i].getPieceButton(),e.get_roi(couleur).get_x(),e.get_roi(couleur).get_y()))
+        {
+          bt_tab[i].setBackground(Color.ORANGE);
         }
       }
     }
@@ -105,6 +145,7 @@ public class IHM extends JFrame
 
   class BoutonListener implements ActionListener
   {
+    int color_adv;
 
     public void actionPerformed(ActionEvent ae)
     {
@@ -146,11 +187,26 @@ public class IHM extends JFrame
           init_backcolor_bt();
           bt_select=0;
 
+
           //b=init_bt(p_select.toString(),p_select,p_select.get_x(),p_select.get_y());
           //getPanelCentre();
 
-          b.actu_bt(p_select.toString(),p_select);
-          bt_before.actu_bt(" ",null);
+          b.actu_bt(p_select);
+          bt_before.actu_bt(null);
+
+
+          if(p_select.get_couleur()==0)
+          {
+            color_adv=1;
+          }else if(p_select.get_couleur()==1)
+          {
+            color_adv=0;
+          }
+
+          if(e.est_echec(color_adv))
+          {
+            echec_aff(color_adv,b);
+          }
 
           //jp_centre.updateUI();
 
@@ -166,20 +222,46 @@ public class IHM extends JFrame
     private Piece p;
     private int x;
     private int y;
+    private Image img;
 
-    public Buttonv2(String name, Piece p,int x,int y)
+    public Buttonv2(Image img, Piece p,int x,int y)
     {
-        super(name);
+        super(new ImageIcon(img));
         this.p=p;
         this.x=x;
         this.y=y;
+        this.img=img;
         //this.nb=x+y*8;
     }
 
-    public void actu_bt(String name, Piece p)
+    public Image get_image()
     {
-      this.setText(name);
+      return this.img;
+    }
+
+    public void set_img(Image img)
+    {
+      this.img=img;
+    }
+
+    public void actu_bt(Piece p)
+    {
       this.p=p;
+      if(p==null)
+      {
+        try
+        {
+          this.img=ImageIO.read(getClass().getResource("img/null.png"));
+        }catch(Exception e)
+        {
+          System.out.println(e);
+        }
+        this.setIcon(new ImageIcon(this.img));
+      }else
+      {
+        this.img=p.get_img();
+        this.setIcon(new ImageIcon(this.img));
+      }
     }
 
     public void set_p_bt(Piece p)
@@ -201,7 +283,6 @@ public class IHM extends JFrame
     {
         return this.p;
     }
-
 
     public int get_x()
     {

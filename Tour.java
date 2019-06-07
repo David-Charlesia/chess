@@ -1,10 +1,12 @@
+import java.awt.Image;
+
 public class Tour extends Piece
 {
   public Tour(){} //constructeur vide
 
-  public Tour(boolean etat,int couleur,int x,int y)
+  public Tour(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
 
   public Tour(Tour tour)

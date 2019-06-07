@@ -1,11 +1,14 @@
-class Cavalier extends Piece
+import java.awt.Image;
+
+public class Cavalier extends Piece
 {
   public Cavalier(){} //constructeur vide
 
-  public Cavalier(boolean etat,int couleur,int x,int y)
+  public Cavalier(boolean etat,int couleur,int x,int y,Image img)
   {
-    super(etat,couleur,x,y);
+    super(etat,couleur,x,y,img);
   }
+
 
   public Cavalier(Cavalier Cavalier)
   {
