@@ -59,6 +59,11 @@ public class Piece
     return this.etat;
   }
 
+  public void set_etat()
+  {
+    this.etat=true;
+  };
+
   public int get_couleur()
   {
     return this.couleur;

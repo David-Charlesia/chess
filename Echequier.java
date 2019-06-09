@@ -9,6 +9,8 @@ public class Echequier
   private Piece[] cases;
   private int joueur=1;
 
+  public Echequier(int i){}//echiquier vide pour test
+
   public Echequier()
   {
     try
@@ -103,6 +105,11 @@ public class Echequier
       }
     }
     return null;
+  }
+
+  public int get_tour()
+  {
+    return this.joueur;
   }
 
 
@@ -271,7 +278,7 @@ public class Echequier
     return false;
   }
 
-  public boolean mat(int couleur)
+  public boolean pat(int couleur)
   {
     for(int i=0;i<64;i++)
     {
@@ -295,6 +302,7 @@ public class Echequier
   public void bouger(Piece p,int dest_x,int dest_y)
   {
     this.type_mouv(p,dest_x,dest_y);
+    p.set_etat();
     if(this.joueur==1)
     {
       this.joueur=0;

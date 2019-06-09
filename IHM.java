@@ -17,6 +17,7 @@ public class IHM extends JFrame
   Piece p_select;
   JPanel jp_centre;
   BoutonListener blis=new BoutonListener();
+  JOptionPane jpop;
 
   public IHM(Echequier e)
   {
@@ -38,6 +39,14 @@ public class IHM extends JFrame
     bt_tab[x+y*8]=bt;
 
     return bt;
+  }
+
+  public void get_dialogue_pat()
+  {
+    jpop=new JOptionPane();
+    jpop.showMessageDialog(null,
+    "La partie c'est fini car aucun des joueur ne peut mettre en échec et mat l'autre. (Situation de PAT)",
+    "Egalité", JOptionPane.INFORMATION_MESSAGE);
   }
 
   public void getPanelCentre()
@@ -157,6 +166,12 @@ public class IHM extends JFrame
       Buttonv2 b=(Buttonv2)ae.getSource();//bouton qui déclenche l'action
       if(bt_select==0)//si aucun bouton n'est sélectionner
       {
+
+        if(!e.pat(e.get_tour()))
+        {
+          get_dialogue_pat();
+        }
+
         Piece p=b.getPieceButton();//return la piece du bouton qui déclenche l'action
         p_select=p;//met dans p_select la piece p
 
