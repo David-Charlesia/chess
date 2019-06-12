@@ -179,13 +179,90 @@ public class Echequier
       {
         this.promotion(p);//promotion
       }*/
+    }else if(roque_possible(p,this.get_case(dest_x,dest_y)))
+    {
+      this.roque(p,this.get_case(dest_x,dest_y));
     }
-    //else if(this.get_case(dest_x,dest_y).toString()=="") à développer pour roque
 
     else//manger
     {
       this.manger(p,dest_x,dest_y);
     }
+  }
+
+  /*public int case_roque(Piece roi,Piece tour)
+  {
+
+  }*/
+
+  public void roque(Piece roi,Piece tour)
+  {
+    //int[] dir_roi=roi.direction(tour.get_x(),tour.get_y());
+    //int[] dir_tour=tour.direction(roi.get_x(),roi.get_y());
+
+    if(roi.get_couleur()==0)
+    {
+      if(tour.get_x()<roi.get_x())
+      {
+        this.deplacer(roi,1,7);
+        this.deplacer(tour,2,7);
+      }else
+      {
+        this.deplacer(roi,5,7);
+        this.deplacer(tour,4,7);
+      }
+    }else
+    {
+      System.out.println("blanc");
+      System.out.println(tour.get_x()+" "+roi.get_x());
+      if(tour.get_x()<roi.get_x())
+      {
+        System.out.println("k");
+        this.deplacer(roi,2,0);
+        this.deplacer(tour,3,0);
+      }else
+      {
+        System.out.println("o");
+        this.deplacer(roi,6,0);
+        this.deplacer(tour,5,0);
+      }
+    }
+    tour.set_etat();
+  }
+
+  public boolean roque_possible(Piece roi,Piece tour)
+  {
+    if(roi.roque_possible())
+    {
+      if(tour.roque_possible_tour())
+      {
+        if(mouv_roque_possible(roi,tour))
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean mouv_roque_possible(Piece p,Piece tour)
+  {
+    int[] tab=p.direction(tour.get_x(),tour.get_y());
+
+    int x=p.get_x();
+    x=x+tab[0];
+    while(x!=tab[0])
+    {
+      if(this.get_case(x,p.get_y())!=null)
+      {
+        if(this.get_case(x,p.get_y())!=tour)
+        {
+          return false;
+        }
+      }
+      x=x+tab[0];
+    }
+    return true;
   }
 
   public boolean est_echec_mine(Piece p,int dest_x,int dest_y)
@@ -252,6 +329,13 @@ public class Echequier
     if(!(this.joueur==p.get_couleur()))
     {
       return false;
+    }
+    if(this.get_case(dest_x,dest_y)!=null)
+    {
+      if(roque_possible(p,this.get_case(dest_x,dest_y)))
+      {
+        return true;
+      }
     }
 
     if(this.est_echec(p.get_couleur()))
@@ -342,19 +426,6 @@ public class Echequier
     this.set_case(x,y,p);
 
     this.set_case(x_sup,y_sup);
-  }
-
-  public boolean roque_possible(Roi r,Tour t)
-  {
-    return r.get_etat() && t.get_etat();
-  }
-
-  public void roque(Roi r,Tour t)
-  {
-    if (roque_possible(r,t))
-    {
-      System.out.println("Yeah");
-    }
   }
 
   /*public void promotion(Piece p)//déplacer le pion avant de faire la promotion

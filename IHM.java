@@ -175,6 +175,8 @@ public class IHM extends JFrame
     JButton end_b=new JButton("OK");
     end_b.addActionListener(elis);
 
+    end.add(end_b);
+
     end.setVisible(true);
   }
 

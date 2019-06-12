@@ -1,4 +1,4 @@
-import java.io.*;
+/*import java.io.*;
 
 public class Partie
 {
@@ -34,4 +34,4 @@ public class Partie
     String path = "partie_Sauv.txt";
 
   }
-}
+}*/

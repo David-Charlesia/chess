@@ -1,4 +1,4 @@
-import java.awt.Image;
+/*import java.awt.Image;
 import javax.imageio.ImageIO;
 
 public class Echiquier
@@ -232,10 +232,10 @@ public class Echiquier
       {
         this.promotion(p);//promotion
       }*/
-    }
+    //}
     //else if(this.get_case(dest_x,dest_y).toString()=="") à développer pour roque
 
-    else//manger
+    /*else//manger
     {
       this.manger(p,dest_x,dest_y);
     }
@@ -245,3 +245,4 @@ public class Echiquier
 
 
 }
+*/

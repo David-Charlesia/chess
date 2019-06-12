@@ -53,4 +53,15 @@ public class Roi extends Piece
     return false;
   }
 
+  public boolean roque_possible()
+  {
+    if(!this.get_etat())
+    {
+      return true;
+    }else
+    {
+      return false;
+    }
+  }
+
 }

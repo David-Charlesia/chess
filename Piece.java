@@ -114,4 +114,8 @@ public class Piece
 
     return tab;
   }
+
+  public boolean roque_possible(){return false;}
+
+  public boolean roque_possible_tour(){return false;}
 }

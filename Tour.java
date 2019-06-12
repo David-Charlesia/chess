@@ -42,4 +42,15 @@ public class Tour extends Piece
     return false;
   }
 
+  public boolean roque_possible_tour()
+  {
+    if(!this.get_etat())
+    {
+      return true;
+    }else
+    {
+      return false;
+    }
+  }
+
 }
