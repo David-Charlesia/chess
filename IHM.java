@@ -306,6 +306,12 @@ public class IHM extends JFrame
             color_adv=0;
           }
 
+          if(!e.pat(color_adv))
+          {
+            get_dialogue_pat();
+            dispose();
+          }
+
           if(e.est_echec(color_adv))
           {
             echec_aff(color_adv,b);
@@ -401,13 +407,6 @@ public class IHM extends JFrame
     {
       return this.y;
     }
-
-    /*
-    public int get_nb(int nb)
-    {
-      return this.nb;
-    }
-    */
 }
 
 
