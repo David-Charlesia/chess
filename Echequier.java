@@ -299,6 +299,27 @@ public class Echequier
     return false;
   }
 
+  public boolean mat(int couleur)//couleur du roi en echec //vérifier avant si roi echec
+  {
+    for(int k=0;k<64;k++)
+    {
+      if(this.cases[k]!=null)
+      {
+        for(int i=0;i<8;i++)
+        {
+          for(int j=0;j<8;j++)
+          {
+            if(this.bouger_ok(this.cases[k],i,j))
+            {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   public void bouger(Piece p,int dest_x,int dest_y)
   {
     this.type_mouv(p,dest_x,dest_y);

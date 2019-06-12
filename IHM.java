@@ -18,9 +18,9 @@ public class IHM extends JFrame
   JPanel jp_centre;
   BoutonListener blis=new BoutonListener();
   PromoListener plis=new PromoListener();
-  JOptionPane jpop;
   Buttonv2 b_promo;
   JDialog jop;
+  EndListener elis=new EndListener();
 
   public IHM(Echequier e)
   {
@@ -42,14 +42,6 @@ public class IHM extends JFrame
     bt_tab[x+y*8]=bt;
 
     return bt;
-  }
-
-  public void get_dialogue_pat()
-  {
-    jpop=new JOptionPane();
-    jpop.showMessageDialog(null,
-    "La partie c'est fini car aucun des joueur ne peut mettre en échec et mat l'autre. (Situation de PAT)",
-    "Egalité", JOptionPane.INFORMATION_MESSAGE);
   }
 
   public void getPanelCentre()
@@ -155,6 +147,37 @@ public class IHM extends JFrame
     }
   }
 
+  public void get_dialogue_pat()
+  {
+
+    JDialog pat_f=new JDialog();
+    pat_f.setLayout(new GridLayout(1,2));
+    pat_f.setSize(200,200);
+
+    JLabel jlabel = new JLabel("La partie c'est fini car aucun des joueur ne peut mettre en échec et mat l'autre. (Situation de PAT) Egalité");
+    pat_f.add(jlabel);
+
+    JButton pat_b=new JButton("OK");
+    pat_b.addActionListener(elis);
+
+    pat_f.setVisible(true);
+  }
+
+  public void end_game(int j)
+  {
+    JDialog end=new JDialog();
+    end.setLayout(new GridLayout(1,2));
+    end.setSize(200,200);
+
+    JLabel jlabel = new JLabel("La partie est finie. Le joueur "+j+" a gagné la partie !");
+    end.add(jlabel);
+
+    JButton end_b=new JButton("OK");
+    end_b.addActionListener(elis);
+
+    end.setVisible(true);
+  }
+
   public void promotion(int color,Piece p)
   {
     jop=new JDialog();
@@ -234,6 +257,14 @@ public class IHM extends JFrame
     }
   }
 
+  class EndListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent en)
+    {
+      dispose();
+    }
+  }
+
   class BoutonListener implements ActionListener
   {
     int color_adv;
@@ -309,12 +340,15 @@ public class IHM extends JFrame
           if(!e.pat(color_adv))
           {
             get_dialogue_pat();
-            dispose();
           }
 
           if(e.est_echec(color_adv))
           {
             echec_aff(color_adv,b);
+            if(e.mat(color_adv))
+            {
+              end_game(p_select.get_couleur());
+            }
           }
 
           //jp_centre.updateUI();
