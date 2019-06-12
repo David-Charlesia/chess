@@ -103,7 +103,7 @@ public class Pion extends Piece
   public boolean promotion_possible()
   {
     int y=this.get_y();
-    if(y==0 || y==7)
+    if((y==0 && this.get_couleur()==0) || (y==7 && this.get_couleur()==1))
     {
       return true;
     }

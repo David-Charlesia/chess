@@ -17,7 +17,10 @@ public class IHM extends JFrame
   Piece p_select;
   JPanel jp_centre;
   BoutonListener blis=new BoutonListener();
+  PromoListener plis=new PromoListener();
   JOptionPane jpop;
+  Buttonv2 b_promo;
+  JDialog jop;
 
   public IHM(Echequier e)
   {
@@ -152,6 +155,85 @@ public class IHM extends JFrame
     }
   }
 
+  public void promotion(int color,Piece p)
+  {
+    jop=new JDialog();
+    jop.setLayout(new GridLayout(2,3));
+    jop.setSize(200,200);
+
+    Buttonv2 promo_Cavalier;
+    Buttonv2 promo_Reine;
+    Buttonv2 promo_Fou;
+    Buttonv2 promo_Pion;
+    Buttonv2 promo_Roi;
+    Buttonv2 promo_Tour;
+
+    int x=p.get_x();
+    int y=p.get_y();
+
+    //Buttonv2(Image img, Piece p,int x,int y)
+    try
+    {
+      if(color==1)
+      {
+        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight-white.png")),new Cavalier(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen-white.png")),new Dame(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop-white.png")),new Fou(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),new Pion(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king-white.png")),new Roi(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok-white.png")),new Tour(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+
+      }else
+      {
+        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight.png")),new Cavalier(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen.png")),new Dame(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop.png")),new Fou(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn.png")),new Pion(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king.png")),new Roi(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok.png")),new Tour(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+      }
+
+      promo_Cavalier.setBackground(new Color(255,222,173));
+      promo_Reine.setBackground(new Color(222,184,135));
+      promo_Fou.setBackground(new Color(255,222,173));
+      promo_Pion.setBackground(new Color(222,184,135));
+      promo_Roi.setBackground(new Color(255,222,173));
+      promo_Tour.setBackground(new Color(222,184,135));
+
+      jop.add(promo_Cavalier);
+      jop.add(promo_Reine);
+      jop.add(promo_Fou);
+      jop.add(promo_Pion);
+      jop.add(promo_Roi);
+      jop.add(promo_Tour);
+
+      promo_Cavalier.addActionListener(plis);
+      promo_Reine.addActionListener(plis);
+      promo_Fou.addActionListener(plis);
+      promo_Pion.addActionListener(plis);
+      promo_Roi.addActionListener(plis);
+      promo_Tour.addActionListener(plis);
+
+    }catch(Exception e)
+    {
+      System.out.println(e);
+    }
+
+    jop.setVisible(true);
+  }
+
+  class PromoListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent pe)
+    {
+      Buttonv2 pbt=(Buttonv2)pe.getSource();
+
+      b_promo.remplacer(pbt);
+
+      jop.dispose();
+    }
+  }
+
   class BoutonListener implements ActionListener
   {
     int color_adv;
@@ -202,6 +284,11 @@ public class IHM extends JFrame
           init_backcolor_bt();
           bt_select=0;
 
+          if(p_select.promotion_possible())
+          {
+            promotion(1,p_select);
+          }
+
 
           //b=init_bt(p_select.toString(),p_select,p_select.get_x(),p_select.get_y());
           //getPanelCentre();
@@ -209,6 +296,7 @@ public class IHM extends JFrame
           b.actu_bt(p_select);
           bt_before.actu_bt(null);
 
+          b_promo=b;
 
           if(p_select.get_couleur()==0)
           {
@@ -247,6 +335,12 @@ public class IHM extends JFrame
         this.y=y;
         this.img=img;
         //this.nb=x+y*8;
+    }
+
+    public void remplacer(Buttonv2 btv)
+    {
+      this.setIcon(new ImageIcon(btv.get_image()));
+      this.actu_bt(btv.getPieceButton());
     }
 
     public Image get_image()
