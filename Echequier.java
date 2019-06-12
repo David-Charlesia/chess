@@ -182,6 +182,8 @@ public class Echequier
     }else if(roque_possible(p,this.get_case(dest_x,dest_y)))
     {
       this.roque(p,this.get_case(dest_x,dest_y));
+      System.out.println(this.cases[3+0*8].toString());
+      System.out.println(this.cases[2+0*8].toString());
     }
 
     else//manger
@@ -218,8 +220,8 @@ public class Echequier
       if(tour.get_x()<roi.get_x())
       {
         System.out.println("k");
-        this.deplacer(roi,2,0);
         this.deplacer(tour,3,0);
+        this.deplacer(roi,2,0);
       }else
       {
         System.out.println("o");
