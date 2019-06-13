@@ -170,6 +170,17 @@ public class Echequier
     this.set_case(origin_x,origin_y);
   }
 
+  public void change_joueur()
+  {
+    if(this.joueur==1)
+    {
+      this.joueur=0;
+    }else
+    {
+      this.joueur=1;
+    }
+  }
+
   public void type_mouv(Piece p,int dest_x,int dest_y)
   {
     if(this.get_case(dest_x,dest_y)==null)//déplacer
@@ -182,8 +193,6 @@ public class Echequier
     }else if(roque_possible(p,this.get_case(dest_x,dest_y)))
     {
       this.roque(p,this.get_case(dest_x,dest_y));
-      System.out.println(this.cases[3+0*8].toString());
-      System.out.println(this.cases[2+0*8].toString());
     }
 
     else//manger
@@ -215,16 +224,12 @@ public class Echequier
       }
     }else
     {
-      System.out.println("blanc");
-      System.out.println(tour.get_x()+" "+roi.get_x());
       if(tour.get_x()<roi.get_x())
       {
-        System.out.println("k");
         this.deplacer(tour,3,0);
         this.deplacer(roi,2,0);
       }else
       {
-        System.out.println("o");
         this.deplacer(roi,6,0);
         this.deplacer(tour,5,0);
       }
@@ -234,6 +239,14 @@ public class Echequier
 
   public boolean roque_possible(Piece roi,Piece tour)
   {
+    if(roi==null || tour==null)
+    {
+      return false;
+    }
+    if(roi.get_couleur()!=tour.get_couleur())
+    {
+      return false;
+    }
     if(roi.roque_possible())
     {
       if(tour.roque_possible_tour())
@@ -253,7 +266,7 @@ public class Echequier
 
     int x=p.get_x();
     x=x+tab[0];
-    while(x!=tab[0])
+    while(x!=tour.get_x())
     {
       if(this.get_case(x,p.get_y())!=null)
       {

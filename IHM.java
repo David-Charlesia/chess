@@ -80,6 +80,18 @@ public class IHM extends JFrame
     }
   }
 
+  public Buttonv2 get_but(int x,int y)
+  {
+    for(int z=0;z<64;z++)
+    {
+      if(bt_tab[z].get_x()==x && bt_tab[z].get_y()==y)
+      {
+        return bt_tab[z];
+      }
+    }
+    return null;
+  }
+
   public void init_backcolor_bt()
   {
     int couleur=1;
@@ -143,6 +155,24 @@ public class IHM extends JFrame
         {
           bt_tab[i].setBackground(Color.ORANGE);
         }
+      }
+    }
+  }
+
+  public void actu_bt_roque()
+  {
+    for(int x=0;x<8;x++)
+    {
+      if(e.get_case(x,0)!=get_but(x,0).getPieceButton())
+      {
+        get_but(x,0).actu_bt(e.get_case(x,0));
+      }
+    }
+    for(int y=0;y<8;y++)
+    {
+      if(e.get_case(y,7)!=get_but(y,7).getPieceButton())
+      {
+        get_but(y,7).actu_bt(e.get_case(y,7));
       }
     }
   }
@@ -313,7 +343,22 @@ public class IHM extends JFrame
           init_backcolor_bt();
         }else if(e.bouger_ok(p_select,b.get_x(),b.get_y()))
         {
-          e.bouger(p_select,b.get_x(),b.get_y());
+          if(e.roque_possible(p_select,e.get_case(b.get_x(),b.get_y())))
+          {
+            e.roque(p_select,e.get_case(b.get_x(),b.get_y()));
+
+            actu_bt_roque();
+
+            b.actu_bt(null);
+            bt_before.actu_bt(null);
+            e.change_joueur();
+          }else
+          {
+            e.bouger(p_select,b.get_x(),b.get_y());
+            b.actu_bt(p_select);
+            bt_before.actu_bt(null);
+          }
+
           init_backcolor_bt();
           bt_select=0;
 
@@ -321,15 +366,6 @@ public class IHM extends JFrame
           {
             promotion(1,p_select);
           }
-
-
-          //b=init_bt(p_select.toString(),p_select,p_select.get_x(),p_select.get_y());
-          //getPanelCentre();
-
-          b.actu_bt(p_select);
-          bt_before.actu_bt(null);
-
-          b_promo=b;
 
           if(p_select.get_couleur()==0)
           {
