@@ -1,6 +1,7 @@
 import java.awt.Image;
+import java.io.*;
 
-public class Pion extends Piece
+public class Pion extends Piece implements Serializable
 {
 
 

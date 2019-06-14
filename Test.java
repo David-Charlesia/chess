@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class Test
 {
   public static void main(String[] args)
@@ -20,12 +22,33 @@ public class Test
 
     Echequier e=new Echequier();
 
-    //e.bouger(e.get_case(3,1),3,3);
-    //e.bouger(e.get_case(2,0),6,4);
-    //e.bouger(e.get_case(4,6),4,4);
+    /*e.bouger(e.get_case(3,1),3,3);
+    e.bouger(e.get_case(2,0),6,4);
+    e.bouger(e.get_case(4,6),4,4);
 
-    //e.afficher();
+    e.afficher();
+    try
+    {
+      e.sauvegarder("test.tmp");
+    }catch(IOException ie)
+    {
+      System.out.println(ie);
+    }
 
+    e=new Echequier();
+    e.afficher();
+
+    try
+    {
+      e.charger("test.tmp");
+    }catch(IOException ie)
+    {
+      System.out.println(ie);
+    }catch(ClassNotFoundException cnfe)
+    {
+      System.out.println(cnfe);
+    }
+    e.afficher();*/
     //System.out.println(e.mouv_possible2(e.get_case(6,4),3,7));
 
     IHM fenetre=new IHM(e);

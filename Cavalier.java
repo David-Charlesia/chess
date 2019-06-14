@@ -1,6 +1,7 @@
 import java.awt.Image;
+import java.io.*;
 
-public class Cavalier extends Piece
+public class Cavalier extends Piece implements Serializable
 {
   public Cavalier(){} //constructeur vide
 

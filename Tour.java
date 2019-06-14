@@ -1,6 +1,7 @@
 import java.awt.Image;
+import java.io.*;
 
-public class Tour extends Piece
+public class Tour extends Piece implements Serializable
 {
   public Tour(){} //constructeur vide
 

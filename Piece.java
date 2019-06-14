@@ -1,11 +1,13 @@
 import java.awt.Image;
-public class Piece
+import java.io.*;
+
+public class Piece implements Serializable
 {
   private boolean etat; //false si n'a jamais joué et true sinon
   private int couleur; //1 pour noir et 0 pour blanc
   private int x;
   private int y;
-  private Image img;
+  private transient Image img;
 
   public Piece(){} //constructeur vide
 

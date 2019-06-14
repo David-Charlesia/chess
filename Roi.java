@@ -1,6 +1,7 @@
 import java.awt.Image;
+import java.io.*;
 
-public class Roi extends Piece
+public class Roi extends Piece implements Serializable
 {
   public Roi(){} //constructeur vide
 

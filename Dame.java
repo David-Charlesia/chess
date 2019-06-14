@@ -1,6 +1,7 @@
 import java.awt.Image;
+import java.io.*;
 
-public class Dame extends Piece
+public class Dame extends Piece implements Serializable
 {
   public Dame(){}
 

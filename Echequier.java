@@ -2,9 +2,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import java.io.*;
 
 
-public class Echequier
+public class Echequier implements Serializable
 {
   private Piece[] cases;
   private int joueur=1;
@@ -568,5 +569,48 @@ public class Echequier
     ch+="\n         |       |       |       |       |       |       |       |       |";
 
     System.out.println(ch);
+   }
+
+
+   /*public void sauvegarder(String nomF)
+   {
+     try
+     {
+       File f=new File(nomF);
+       if(f.exists() && !f.isDirectory())
+       {
+         f.delete();
+       }
+       Iterator<Piece> ite=this.cases.iterator();
+       Piece p;
+       BufferedWriter bf=new BufferedWriter(new FileWriter (nomF,true));
+
+       f.write(this.joueur);
+       f.newLine();
+
+       while(ite.hasNext())
+       {
+         p=ite.next();
+
+       }
+     }
+   }*/
+
+   public void sauvegarder(String chemin) throws IOException
+   {
+     FileOutputStream fos = new FileOutputStream(chemin);
+     ObjectOutputStream oos = new ObjectOutputStream(fos);
+     oos.writeObject(this.cases);
+     oos.writeObject(this.joueur);
+     oos.close();
+   }
+
+   public void charger(String chemin) throws IOException, ClassNotFoundException
+   {
+     FileInputStream fis = new FileInputStream(chemin);
+     ObjectInputStream ois = new ObjectInputStream(fis);
+     this.cases=(Piece[])ois.readObject();
+     this.joueur=(int)ois.readObject();
+     ois.close();
    }
 }
