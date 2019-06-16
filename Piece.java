@@ -3,21 +3,25 @@ import java.io.*;
 
 public class Piece implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+  
   private boolean etat; //false si n'a jamais joué et true sinon
   private int couleur; //1 pour noir et 0 pour blanc
   private int x;
   private int y;
   private transient Image img;
+  private String loc_img;
 
   public Piece(){} //constructeur vide
 
-  public Piece(boolean etat,int couleur,int x,int y,Image img)
+  public Piece(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
     this.etat=etat;
     this.couleur=couleur;
     this.x=x;
     this.y=y;
     this.img=img;
+    this.loc_img=loc_img;
   }
 
   public Piece(Piece piece)
@@ -74,6 +78,11 @@ public class Piece implements Serializable
   public Image get_img()
   {
     return this.img;
+  }
+
+  public String get_loc_img()
+  {
+    return this.loc_img;
   }
 
   public boolean mouv_possible(int x,int y){return true;}//à redéfinir pour chaque pièce

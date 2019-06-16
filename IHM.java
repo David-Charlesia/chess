@@ -29,6 +29,7 @@ public class IHM extends JFrame
     this.setLayout(new BorderLayout());
     getPanelCentre();
     this.add(jp_centre,BorderLayout.CENTER);
+    this.add(getPanelBouton(),BorderLayout.SOUTH);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setBounds(300,300,800,600);
     this.setVisible(true);
@@ -42,6 +43,24 @@ public class IHM extends JFrame
     bt_tab[x+y*8]=bt;
 
     return bt;
+  }
+
+  public JPanel getPanelBouton()
+  {
+    JPanel jp=new JPanel();
+
+    JButton sauvegarder=new JButton("Sauvegarder");
+    JButton charger=new JButton("Charger");
+
+    BoutonSudListener bsl=new BoutonSudListener();
+
+    sauvegarder.addActionListener(bsl);
+    charger.addActionListener(bsl);
+
+    jp.add(sauvegarder);
+    jp.add(charger);
+
+    return jp;
   }
 
   public void getPanelCentre()
@@ -90,6 +109,17 @@ public class IHM extends JFrame
       }
     }
     return null;
+  }
+
+  public void actualiser()
+  {
+    for(int x=0;x<8;x++)
+    {
+      for(int y=0;y<8;y++)
+      {
+        get_but(x,y).actu_bt(e.get_case(x,y));
+      }
+    }
   }
 
   public void init_backcolor_bt()
@@ -231,21 +261,21 @@ public class IHM extends JFrame
     {
       if(color==1)
       {
-        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight-white.png")),new Cavalier(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen-white.png")),new Dame(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop-white.png")),new Fou(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),new Pion(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king-white.png")),new Roi(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok-white.png")),new Tour(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight-white.png")),new Cavalier(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png")),"img/chess-knight-white.png"),x,y);
+        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen-white.png")),new Dame(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-queen-white.png")),"img/chess-queen-white.png"),x,y);
+        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop-white.png")),new Fou(true,1,x,y,ImageIO.read(getClass().getResource("img/bishop-white.png")),"img/bishop-white.png"),x,y);
+        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),new Pion(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),"img/chess-pawn-white.png"),x,y);
+        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king-white.png")),new Roi(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-king-white.png")),"img/chess-king-white.png"),x,y);
+        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok-white.png")),new Tour(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-rok-white.png")),"img/chess-rok-white.png"),x,y);
 
       }else
       {
-        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight.png")),new Cavalier(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen.png")),new Dame(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop.png")),new Fou(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn.png")),new Pion(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king.png")),new Roi(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
-        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok.png")),new Tour(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight-white.png"))),x,y);
+        promo_Cavalier=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-knight.png")),new Cavalier(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-knight.png")),"img/chess-knight.png"),x,y);
+        promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen.png")),new Dame(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-queen.png")),"img/chess-queen.png"),x,y);
+        promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop.png")),new Fou(true,0,x,y,ImageIO.read(getClass().getResource("img/bishop.png")),"img/bishop.png"),x,y);
+        promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn.png")),new Pion(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-pawn.png")),"img/chess-pawn.png"),x,y);
+        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king.png")),new Roi(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-king.png")),"img/chess-king.png"),x,y);
+        promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok.png")),new Tour(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-rok.png")),"img/chess-rok.png"),x,y);
       }
 
       promo_Cavalier.setBackground(new Color(255,222,173));
@@ -294,6 +324,71 @@ public class IHM extends JFrame
     public void actionPerformed(ActionEvent en)
     {
       dispose();
+    }
+  }
+
+  public void charger()
+  {
+    JFrame frame=new JFrame("");
+    JFileChooser dialogue=new JFileChooser(new File("."));
+    int returnval=dialogue.showOpenDialog(this);
+    if(returnval==JFileChooser.APPROVE_OPTION)
+    {
+      File file=dialogue.getSelectedFile();
+      try
+      {
+        e.charger(file);
+      }catch(IOException e)
+      {
+        System.out.println(e);
+        System.out.println("io io io ");
+      }catch(ClassNotFoundException cnfe)
+      {
+        System.out.println(cnfe);
+        System.out.println("ya pas");
+      }
+    }
+  }
+
+  public void sauver()
+  {
+    //JFrame parentFrame = new JFrame();
+
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setCurrentDirectory(new File("."));
+    fileChooser.setDialogTitle("Sauvgarder");
+
+    int userSelection = fileChooser.showSaveDialog(this);
+
+    if (userSelection == JFileChooser.APPROVE_OPTION)
+    {
+      File fileToSave = fileChooser.getSelectedFile();
+      try
+      {
+        e.sauvegarder(fileToSave);
+      }catch(IOException ioe)
+      {
+        System.out.println(ioe);
+      }
+    }
+  }
+
+  class BoutonSudListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent aes)
+    {
+      String choix=aes.getActionCommand();
+
+      if(choix=="Sauvegarder")
+      {
+        sauver();
+
+      }
+      if(choix=="Charger")
+      {
+        charger();
+        actualiser();
+      }
     }
   }
 
@@ -439,15 +534,21 @@ public class IHM extends JFrame
         try
         {
           this.img=ImageIO.read(getClass().getResource("img/null.png"));
+          this.setIcon(new ImageIcon(this.img));
         }catch(Exception e)
         {
           System.out.println(e);
         }
-        this.setIcon(new ImageIcon(this.img));
       }else
       {
-        this.img=p.get_img();
-        this.setIcon(new ImageIcon(this.img));
+        try
+        {
+          this.img=ImageIO.read(getClass().getResource(p.get_loc_img()));
+          this.setIcon(new ImageIcon(this.img));
+        }catch(Exception e)
+        {
+          System.out.println(e);
+        }
       }
     }
 

@@ -3,11 +3,13 @@ import java.io.*;
 
 public class Dame extends Piece implements Serializable
 {
+  private static final long serialVersionUID = 3L;
+
   public Dame(){}
 
-  public Dame(boolean etat,int couleur,int x,int y,Image img)
+  public Dame(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
-    super(etat,couleur,x,y,img);
+    super(etat,couleur,x,y,img,loc_img);
   }
 
   public Dame(Dame Dame)

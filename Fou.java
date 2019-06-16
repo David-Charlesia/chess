@@ -2,12 +2,13 @@ import java.awt.Image;
 
 public class Fou extends Piece
 {
+  private static final long serialVersionUID = 4L;
 
   public Fou(){} //constructeur vide
 
-  public Fou(boolean etat,int couleur,int x,int y,Image img)
+  public Fou(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
-    super(etat,couleur,x,y,img);
+    super(etat,couleur,x,y,img,loc_img);
   }
 
   public Fou(Fou fou)

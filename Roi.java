@@ -3,11 +3,13 @@ import java.io.*;
 
 public class Roi extends Piece implements Serializable
 {
+  private static final long serialVersionUID = 6L;
+
   public Roi(){} //constructeur vide
 
-  public Roi(boolean etat,int couleur,int x,int y,Image img)
+  public Roi(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
-    super(etat,couleur,x,y,img);
+    super(etat,couleur,x,y,img,loc_img);
   }
 
   public Roi(Roi Roi)

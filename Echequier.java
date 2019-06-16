@@ -19,33 +19,33 @@ public class Echequier implements Serializable
       this.cases=new Piece[64];
 
       //Pièces blanches :
-      this.cases[0]=new Tour(false,1,0,0,ImageIO.read(getClass().getResource("img/chess-rok-white.png")));
-      this.cases[1]=new Cavalier(false,1,1,0,ImageIO.read(getClass().getResource("img/chess-knight-white.png")));
-      this.cases[2]=new Fou(false,1,2,0,ImageIO.read(getClass().getResource("img/bishop-white.png")));
-      this.cases[3]=new Dame(false,1,3,0,ImageIO.read(getClass().getResource("img/chess-queen-white.png")));
-      this.cases[4]=new Roi(false,1,4,0,ImageIO.read(getClass().getResource("img/chess-king-white.png")));
-      this.cases[5]=new Fou(false,1,5,0,ImageIO.read(getClass().getResource("img/bishop-white.png")));
-      this.cases[6]=new Cavalier(false,1,6,0,ImageIO.read(getClass().getResource("img/chess-knight-white.png")));
-      this.cases[7]=new Tour(false,1,7,0,ImageIO.read(getClass().getResource("img/chess-rok-white.png")));
+      this.cases[0]=new Tour(false,1,0,0,ImageIO.read(getClass().getResource("img/chess-rok-white.png")),"img/chess-rok-white.png");
+      this.cases[1]=new Cavalier(false,1,1,0,ImageIO.read(getClass().getResource("img/chess-knight-white.png")),"img/chess-knight-white.png");
+      this.cases[2]=new Fou(false,1,2,0,ImageIO.read(getClass().getResource("img/bishop-white.png")),"img/bishop-white.png");
+      this.cases[3]=new Dame(false,1,3,0,ImageIO.read(getClass().getResource("img/chess-queen-white.png")),"img/chess-queen-white.png");
+      this.cases[4]=new Roi(false,1,4,0,ImageIO.read(getClass().getResource("img/chess-king-white.png")),"img/chess-king-white.png");
+      this.cases[5]=new Fou(false,1,5,0,ImageIO.read(getClass().getResource("img/bishop-white.png")),"img/bishop-white.png");
+      this.cases[6]=new Cavalier(false,1,6,0,ImageIO.read(getClass().getResource("img/chess-knight-white.png")),"img/chess-knight-white.png");
+      this.cases[7]=new Tour(false,1,7,0,ImageIO.read(getClass().getResource("img/chess-rok-white.png")),"img/chess-rok-white.png");
 
       for(int i=8;i<16;i++)
       {
-        this.cases[i]=new Pion(false,1,(i-8),1,ImageIO.read(getClass().getResource("img/chess-pawn-white.png")));
+        this.cases[i]=new Pion(false,1,(i-8),1,ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),"img/chess-pawn-white.png");
       }
 
       //Pièces noirs :
-      this.cases[56]=new Tour(false,0,0,7,ImageIO.read(getClass().getResource("img/chess-rok.png")));
-      this.cases[57]=new Cavalier(false,0,1,7,ImageIO.read(getClass().getResource("img/chess-knight.png")));
-      this.cases[58]=new Fou(false,0,2,7,ImageIO.read(getClass().getResource("img/bishop.png")));
-      this.cases[59]=new Roi(false,0,3,7,ImageIO.read(getClass().getResource("img/chess-king.png")));
-      this.cases[60]=new Dame(false,0,4,7,ImageIO.read(getClass().getResource("img/chess-queen.png")));
-      this.cases[61]=new Fou(false,0,5,7,ImageIO.read(getClass().getResource("img/bishop.png")));
-      this.cases[62]=new Cavalier(false,0,6,7,ImageIO.read(getClass().getResource("img/chess-knight.png")));
-      this.cases[63]=new Tour(false,0,7,7,ImageIO.read(getClass().getResource("img/chess-rok.png")));
+      this.cases[56]=new Tour(false,0,0,7,ImageIO.read(getClass().getResource("img/chess-rok.png")),"img/chess-rok.png");
+      this.cases[57]=new Cavalier(false,0,1,7,ImageIO.read(getClass().getResource("img/chess-knight.png")),"img/chess-knight.png");
+      this.cases[58]=new Fou(false,0,2,7,ImageIO.read(getClass().getResource("img/bishop.png")),"img/bishop.png");
+      this.cases[59]=new Roi(false,0,3,7,ImageIO.read(getClass().getResource("img/chess-king.png")),"img/chess-king.png");
+      this.cases[60]=new Dame(false,0,4,7,ImageIO.read(getClass().getResource("img/chess-queen.png")),"img/chess-queen.png");
+      this.cases[61]=new Fou(false,0,5,7,ImageIO.read(getClass().getResource("img/bishop.png")),"img/bishop.png");
+      this.cases[62]=new Cavalier(false,0,6,7,ImageIO.read(getClass().getResource("img/chess-knight.png")),"img/chess-knight.png");
+      this.cases[63]=new Tour(false,0,7,7,ImageIO.read(getClass().getResource("img/chess-rok.png")),"img/chess-rok.png");
 
       for(int i=48;i<56;i++)
       {
-        this.cases[i]=new Pion(false,0,(i-48),6,ImageIO.read(getClass().getResource("img/chess-pawn.png")));
+        this.cases[i]=new Pion(false,0,(i-48),6,ImageIO.read(getClass().getResource("img/chess-pawn.png")),"img/chess-pawn.png");
       }
     } catch (Exception ex)
     {
@@ -596,7 +596,7 @@ public class Echequier implements Serializable
      }
    }*/
 
-   public void sauvegarder(String chemin) throws IOException
+   public void sauvegarder(File chemin) throws IOException
    {
      FileOutputStream fos = new FileOutputStream(chemin);
      ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -605,7 +605,7 @@ public class Echequier implements Serializable
      oos.close();
    }
 
-   public void charger(String chemin) throws IOException, ClassNotFoundException
+   public void charger(File chemin) throws IOException, ClassNotFoundException
    {
      FileInputStream fis = new FileInputStream(chemin);
      ObjectInputStream ois = new ObjectInputStream(fis);

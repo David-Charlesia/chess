@@ -3,16 +3,13 @@ import java.io.*;
 
 public class Pion extends Piece implements Serializable
 {
-
-
-  //Faire la promotion !!!!!
-
-
+  private static final long serialVersionUID = 5L;
+  
   public Pion(){} //constructeur vide
 
-  public Pion(boolean etat,int couleur,int x,int y,Image img)
+  public Pion(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
-    super(etat,couleur,x,y,img);
+    super(etat,couleur,x,y,img,loc_img);
   }
 
   public Pion(Pion pion)

@@ -3,11 +3,12 @@ import java.io.*;
 
 public class Tour extends Piece implements Serializable
 {
+  private static final long serialVersionUID = 7L;
   public Tour(){} //constructeur vide
 
-  public Tour(boolean etat,int couleur,int x,int y,Image img)
+  public Tour(boolean etat,int couleur,int x,int y,Image img,String loc_img)
   {
-    super(etat,couleur,x,y,img);
+    super(etat,couleur,x,y,img,loc_img);
   }
 
   public Tour(Tour tour)
