@@ -380,6 +380,17 @@ public class Echequier implements Serializable
 
   public boolean pat(int couleur)
   {
+    String r="R"+couleur;
+    for(int x=0;x<64;x++)
+    {
+      if(this.cases[x]!=null)
+      {
+        if(this.cases[x].toString()!=r && this.cases[x].get_couleur()==couleur)
+        {
+          return true;
+        }
+      }
+    }
     for(int i=0;i<64;i++)
     {
       if(this.cases[i]!=null)

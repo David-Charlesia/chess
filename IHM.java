@@ -211,10 +211,10 @@ public class IHM extends JFrame
   {
 
     JDialog pat_f=new JDialog();
-    pat_f.setLayout(new GridLayout(1,2));
+    pat_f.setLayout(new GridLayout(2,1));
     pat_f.setSize(200,200);
 
-    JLabel jlabel = new JLabel("La partie c'est fini car aucun des joueur ne peut mettre en échec et mat l'autre. (Situation de PAT) Egalité");
+    JLabel jlabel = new JLabel("La partie c'est fini car aucun des joueur ne peut mettre en echec et mat l'autre. (Situation de PAT) Egalite");
     pat_f.add(jlabel);
 
     JButton pat_b=new JButton("OK");
@@ -226,10 +226,17 @@ public class IHM extends JFrame
   public void end_game(int j)
   {
     JDialog end=new JDialog();
-    end.setLayout(new GridLayout(1,2));
-    end.setSize(200,200);
+    end.setLayout(new GridLayout(2,1));
+    end.setSize(400,100);
+    JLabel jlabel;
 
-    JLabel jlabel = new JLabel("La partie est finie. Le joueur "+j+" a gagné la partie !");
+    if(j==1)
+    {
+      jlabel=new JLabel("La partie est finie. Les blancs a gagne la partie !");
+    }else
+    {
+      jlabel=new JLabel("La partie est finie. Les noirs a gagne la partie !");
+    }
     end.add(jlabel);
 
     JButton end_b=new JButton("OK");
@@ -238,6 +245,11 @@ public class IHM extends JFrame
     end.add(end_b);
 
     end.setVisible(true);
+  }
+
+  public void quitter()
+  {
+    dispose();
   }
 
   public void promotion(int color,Piece p)
@@ -250,7 +262,6 @@ public class IHM extends JFrame
     Buttonv2 promo_Reine;
     Buttonv2 promo_Fou;
     Buttonv2 promo_Pion;
-    Buttonv2 promo_Roi;
     Buttonv2 promo_Tour;
 
     int x=p.get_x();
@@ -265,7 +276,6 @@ public class IHM extends JFrame
         promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen-white.png")),new Dame(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-queen-white.png")),"img/chess-queen-white.png"),x,y);
         promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop-white.png")),new Fou(true,1,x,y,ImageIO.read(getClass().getResource("img/bishop-white.png")),"img/bishop-white.png"),x,y);
         promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),new Pion(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-pawn-white.png")),"img/chess-pawn-white.png"),x,y);
-        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king-white.png")),new Roi(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-king-white.png")),"img/chess-king-white.png"),x,y);
         promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok-white.png")),new Tour(true,1,x,y,ImageIO.read(getClass().getResource("img/chess-rok-white.png")),"img/chess-rok-white.png"),x,y);
 
       }else
@@ -274,7 +284,6 @@ public class IHM extends JFrame
         promo_Reine=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-queen.png")),new Dame(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-queen.png")),"img/chess-queen.png"),x,y);
         promo_Fou=new Buttonv2(ImageIO.read(getClass().getResource("img/bishop.png")),new Fou(true,0,x,y,ImageIO.read(getClass().getResource("img/bishop.png")),"img/bishop.png"),x,y);
         promo_Pion=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-pawn.png")),new Pion(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-pawn.png")),"img/chess-pawn.png"),x,y);
-        promo_Roi=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-king.png")),new Roi(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-king.png")),"img/chess-king.png"),x,y);
         promo_Tour=new Buttonv2(ImageIO.read(getClass().getResource("img/chess-rok.png")),new Tour(true,0,x,y,ImageIO.read(getClass().getResource("img/chess-rok.png")),"img/chess-rok.png"),x,y);
       }
 
@@ -282,21 +291,18 @@ public class IHM extends JFrame
       promo_Reine.setBackground(new Color(222,184,135));
       promo_Fou.setBackground(new Color(255,222,173));
       promo_Pion.setBackground(new Color(222,184,135));
-      promo_Roi.setBackground(new Color(255,222,173));
       promo_Tour.setBackground(new Color(222,184,135));
 
       jop.add(promo_Cavalier);
       jop.add(promo_Reine);
       jop.add(promo_Fou);
       jop.add(promo_Pion);
-      jop.add(promo_Roi);
       jop.add(promo_Tour);
 
       promo_Cavalier.addActionListener(plis);
       promo_Reine.addActionListener(plis);
       promo_Fou.addActionListener(plis);
       promo_Pion.addActionListener(plis);
-      promo_Roi.addActionListener(plis);
       promo_Tour.addActionListener(plis);
 
     }catch(Exception e)
@@ -323,6 +329,7 @@ public class IHM extends JFrame
   {
     public void actionPerformed(ActionEvent en)
     {
+      quitter();
       dispose();
     }
   }
@@ -341,11 +348,9 @@ public class IHM extends JFrame
       }catch(IOException e)
       {
         System.out.println(e);
-        System.out.println("io io io ");
       }catch(ClassNotFoundException cnfe)
       {
         System.out.println(cnfe);
-        System.out.println("ya pas");
       }
     }
   }
@@ -459,6 +464,7 @@ public class IHM extends JFrame
 
           if(p_select.promotion_possible())
           {
+            b_promo=b;
             promotion(1,p_select);
           }
 
@@ -469,12 +475,6 @@ public class IHM extends JFrame
           {
             color_adv=0;
           }
-
-          if(!e.pat(color_adv))
-          {
-            get_dialogue_pat();
-          }
-
           if(e.est_echec(color_adv))
           {
             echec_aff(color_adv,b);
@@ -482,6 +482,9 @@ public class IHM extends JFrame
             {
               end_game(p_select.get_couleur());
             }
+          }else if(!e.pat(color_adv))
+          {
+            get_dialogue_pat();
           }
 
           //jp_centre.updateUI();
